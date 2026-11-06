@@ -1,0 +1,1903 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De guardar datos a decidir con ellos · Prueba de lectura</title>
+<meta name="description" content="Prueba de comprensión crítica sobre Scavone y Marchesano (2025). Gestión de Información, Universidad de La Salle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F7F4; --paper:#FFFFFF; --ink:#111111; --ink2:#2B2F36; --muted:#5B6573; --faint:#8A939E;
+  --line:#E3E6EA; --line2:#C9CED4; --soft:#F1F3F5;
+  --blue:#1769AA; --blue-s:#E8F1F8; --teal:#007F73; --teal-s:#E2F2F0;
+  --amber:#F0A128; --amber-d:#9A6200; --amber-s:#FDF3E1;
+  --orange:#F47A24; --orange-d:#B9520D; --orange-s:#FEF0E6;
+  --brown:#A65B00; --brown-s:#F7EDE1; --navy:#12395B; --navy-s:#E6ECF2;
+  --ok:#1E7A4C; --ok-s:#E7F3EC; --bad:#B93A2E; --bad-s:#F8EAE8;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --sans:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --hh:60px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--hh)}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+
+/* ---------- Encabezado ---------- */
+.top{position:sticky;top:0;z-index:20;height:var(--hh);display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 28px;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;cursor:pointer;color:var(--ink);text-align:left}
+.brand b{font-weight:700;font-size:14px}
+.brand > span{color:var(--muted);font-size:14px;margin-left:4px}
+.brand .sh{display:none}
+.topr{display:flex;align-items:center;gap:16px}
+.meta{font:12px var(--mono);color:var(--muted);text-align:right}
+
+/* ---------- Botones ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px var(--sans);border-radius:8px;padding:13px 22px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s,border-color .15s}
+.btn:hover{background:#2B2F36}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{background:#CDD2D8;border-color:#CDD2D8;color:#fff;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--soft)}
+.btn.small{padding:9px 16px;font-size:14px}
+.btn.accent{background:var(--orange);border-color:var(--orange);color:#111}
+.btn.accent:hover{background:#FF8C3D}
+.btn.light{background:transparent;color:#fff;border-color:#4A5059}
+.btn.light:hover{background:#1F2328}
+.btn .arr{transition:transform .2s}
+.btn:hover .arr{transform:translateX(3px)}
+.link{background:none;border:0;color:var(--muted);font:14px var(--sans);cursor:pointer;padding:8px 0;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line2)}
+.link:hover{color:var(--ink)}
+.link small{font:12px var(--mono);text-decoration:none;color:var(--faint);margin-left:6px}
+
+.eyebrow{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin:0 0 14px}
+.sec{padding:96px 0}
+.sec-h{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:44px}
+.sec-h h2{font-family:var(--serif);font-weight:500;font-size:46px;line-height:1.05;letter-spacing:-.015em;margin:0}
+.sec-h p{margin:0;color:var(--muted);font-size:17px;max-width:460px}
+.num-label{font:500 12px var(--mono);color:var(--orange-d);letter-spacing:.08em}
+
+/* ---------- Portada: banner ---------- */
+.hero{background:#111;color:#fff;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(#1C1F23 1px,transparent 1px),linear-gradient(90deg,#1C1F23 1px,transparent 1px);background-size:44px 44px;opacity:.7}
+.hero-grid{position:relative;display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center;padding-top:76px;padding-bottom:84px}
+.kicker{display:flex;align-items:center;gap:10px;font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:#A9B0B9;margin:0 0 22px}
+.live{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(244,122,36,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(244,122,36,0)}100%{box-shadow:0 0 0 0 rgba(244,122,36,0)}}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:68px;line-height:.98;letter-spacing:-.025em;margin:0 0 22px}
+.hero h1 em{font-style:italic;color:var(--orange)}
+.hero .lead{font-size:18px;line-height:1.55;color:#C9CED4;margin:0 0 32px;max-width:500px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.hero-meta{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:0;border-top:1px solid #2C3138}
+.hero-meta li{padding:16px 26px 0 0;margin-right:26px;border-right:1px solid #2C3138;font-size:13px;color:#A9B0B9}
+.hero-meta li:last-child{border-right:0;margin-right:0}
+.hero-meta b{display:block;font:500 26px var(--mono);color:#fff;margin-bottom:2px}
+.hero-fig svg{width:100%;height:auto;display:block}
+.hero-fig text{font-family:var(--sans)}
+.flow{stroke-dasharray:4 6;animation:dash 1.6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-20}}
+.resume-bar{position:relative;background:var(--orange);color:#111;font-size:14px}
+.resume-bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+.resume-bar button{background:#111;color:#fff;border:0;border-radius:6px;padding:8px 14px;font:600 13px var(--sans);cursor:pointer}
+
+/* ---------- Palabras deslizantes ---------- */
+.marquee{overflow:hidden;background:var(--paper);border-bottom:1px solid var(--line);padding:26px 0 24px}
+.mrow{display:flex;width:max-content;align-items:center;animation:mq 70s linear infinite}
+.mrow.rev{animation-direction:reverse;animation-duration:85s;margin-top:18px}
+.marquee:hover .mrow{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mw{font-family:var(--serif);font-size:60px;line-height:1.1;white-space:nowrap;padding:0 28px;letter-spacing:-.01em}
+.mw.o{color:transparent;-webkit-text-stroke:1.1px var(--ink)}
+.mw.i{font-style:italic}
+.sq{width:12px;height:12px;transform:rotate(45deg);flex:none}
+.mtag{font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:9px 15px;border-radius:999px;border:1px solid currentColor;margin:0 6px;white-space:nowrap}
+
+/* ---------- Cifras ---------- */
+.stats5{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
+.st5{padding:28px 24px 26px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px;min-height:260px}
+.st5:last-child{border-right:0}
+.st5 .big{font-family:var(--serif);font-size:84px;line-height:.9;font-weight:500;letter-spacing:-.03em}
+.st5 h4{margin:0;font-size:16px;font-weight:600}
+.st5 p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45}
+.mini{margin-top:auto;display:flex;gap:5px;flex-wrap:wrap;align-items:flex-end}
+.mini.col{flex-direction:column;align-items:stretch;gap:4px}
+.mini i{display:block;border-radius:2px}
+.mini .pill{font:500 11px var(--mono);padding:4px 7px;border-radius:4px;background:var(--soft);color:var(--ink2)}
+
+/* ---------- Nube de palabras ---------- */
+.cloud-wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:start}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.flt{font:500 13px var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--paper);cursor:pointer;color:var(--ink2);display:inline-flex;align-items:center;gap:8px}
+.flt i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.flt.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cloud{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:36px 32px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 18px;min-height:380px}
+.tag{flex:none;max-width:100%;background:none;border:0;cursor:pointer;color:var(--c);padding:4px 8px;border-radius:6px;transition:opacity .25s,background .15s,color .15s,transform .15s;line-height:1.15}
+.tag:hover{background:var(--s)}
+.tag.w3{font:500 34px/1.1 var(--serif);letter-spacing:-.01em}
+.tag.w2{font:600 19px var(--sans)}
+.tag.w1{font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.tag.faded{opacity:.15}
+.tag.on{background:var(--c);color:#fff}
+.hintcard{position:sticky;top:calc(var(--hh) + 20px);background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.hintcard .bar{height:6px;background:var(--c,var(--ink));transition:background .2s}
+.hintcard .in{padding:26px 26px 28px}
+.hintcard small{display:block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--orange-d);margin-bottom:10px}
+.hintcard h3{font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.1;margin:0 0 12px}
+.hintcard p{margin:0 0 18px;color:var(--ink2);font-size:15.5px}
+.gpill{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;border-radius:4px;background:var(--s,var(--soft));color:var(--c,var(--muted))}
+.hint-empty{color:var(--muted);font-size:15px}
+.hint-empty svg{width:40px;height:40px;color:var(--line2);display:block;margin-bottom:12px}
+
+/* ---------- Mecánicas ---------- */
+.mech{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mcard{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;position:relative;transition:transform .2s,border-color .2s}
+.mcard:hover{transform:translateY(-3px);border-color:var(--c)}
+.mcard .ic{width:46px;height:46px;border-radius:10px;background:var(--cs);color:var(--c);display:grid;place-items:center}
+.mcard .ic svg{width:24px;height:24px}
+.mcard .cnt{position:absolute;top:20px;right:20px;font:500 12px var(--mono);color:var(--muted)}
+.mcard h4{margin:6px 0 0;font-size:17px}
+.mcard p{margin:0;font-size:14px;color:var(--muted)}
+.mcard .pista{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line2);font-size:13.5px;color:var(--ink2)}
+.mcard .pista b{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--orange-d);display:block;margin-bottom:3px}
+.mcard.feat{background:#111;color:#fff;border-color:#111}
+.mcard.feat p,.mcard.feat .cnt{color:#A9B0B9}
+.mcard.feat .pista{color:#E3E6EA;border-color:#3A3F47}
+.mcard.feat .pista b{color:var(--orange)}
+
+/* ---------- Embudo crítico ---------- */
+.crit{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.funnel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:34px 30px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.layer{border-radius:10px;padding:18px 22px;display:grid;grid-template-columns:34px 1fr;column-gap:12px;align-items:start;text-align:left}
+.layer .ln{font:500 12px var(--mono);padding-top:3px;grid-row:span 2}
+.layer b{font-size:16px}
+.layer small{font-size:13.5px;line-height:1.4;opacity:.85}
+.l1{width:100%;background:#111;color:#fff}
+.l2{width:80%;background:var(--blue);color:#fff}
+.l3{width:60%;background:var(--orange-s);color:var(--orange-d);border:1.5px dashed var(--orange)}
+.funnel .gap{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--faint);display:flex;align-items:center;gap:8px}
+.funnel .gap::before,.funnel .gap::after{content:"";width:28px;height:1px;background:var(--line2)}
+.case{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px;display:flex;flex-direction:column}
+.case h3{font-family:var(--serif);font-weight:500;font-size:26px;line-height:1.2;margin:0 0 18px}
+.crow{display:grid;grid-template-columns:12px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.crow i{width:12px;height:12px;border-radius:3px;margin-top:5px}
+.crow b{display:block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:3px}
+.crow p{margin:0;font-size:15px}
+.case .q{margin-top:auto;padding:16px 18px;background:var(--soft);border-radius:10px;font-size:14px;color:var(--ink2)}
+
+/* ---------- Calificación ---------- */
+.score{display:grid;grid-template-columns:1fr 1.15fr;gap:20px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card .sub{margin:0 0 24px;color:var(--muted);font-size:14px}
+.bars3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:end;height:220px;border-bottom:1px solid var(--line2);padding:0 6px}
+.b3{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px}
+.b3 .v{font:500 22px var(--mono)}
+.b3 .col{width:100%;max-width:92px;border-radius:8px 8px 0 0}
+.b3l{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:10px 6px 0;text-align:center;font-size:13px;color:var(--muted)}
+.scale{position:relative;margin:34px 0 8px}
+.scale .track{display:grid;grid-template-columns:60fr 20fr 10fr 10fr;height:16px;border-radius:999px;overflow:hidden}
+.scale .mk{position:absolute;top:-30px;left:60%;transform:translateX(-50%);font:500 11px var(--mono);color:var(--ink);text-align:center;white-space:nowrap}
+.scale .mk::after{content:"";display:block;width:2px;height:52px;background:var(--ink);margin:4px auto 0}
+.scale .ticks{display:flex;justify-content:space-between;font:500 12px var(--mono);color:var(--muted);margin-top:8px}
+.dimgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:26px}
+.dg{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:14px;border-radius:10px;background:var(--s)}
+.dg .ic{width:34px;height:34px;border-radius:8px;background:var(--c);color:#fff;display:grid;place-items:center;font:600 13px var(--mono)}
+.dg b{display:block;font-size:14px;color:var(--c)}
+.dg span{font-size:13px;color:var(--ink2);line-height:1.4}
+
+/* ---------- Cierre ---------- */
+.final{background:#111;color:#fff;position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;border:1px solid #2C3138;box-shadow:0 0 0 60px #151719,0 0 0 61px #2C3138,0 0 0 120px #131416,0 0 0 121px #24282D}
+.final .wrap{position:relative;padding-top:100px;padding-bottom:100px}
+.final small{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--orange)}
+.final blockquote{font-family:var(--serif);font-size:50px;line-height:1.08;letter-spacing:-.015em;margin:18px 0 36px;max-width:880px}
+.final .note{color:#8A939E;font-size:13px;margin-top:18px}
+.foot{padding:30px 0 40px;font-size:13px;color:var(--muted)}
+.foot .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.foot a{color:var(--blue)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Vista de la prueba ---------- */
+.appview{min-height:calc(100vh - var(--hh));background-color:var(--bg);background-image:radial-gradient(#D7DBE0 1px,transparent 1.2px);background-size:22px 22px}
+.progress{position:sticky;top:var(--hh);z-index:15;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);padding:12px 28px 10px}
+.progress .bar{display:flex;gap:4px;max-width:820px;margin:0 auto}
+.seg{flex:1;height:8px;background:var(--soft);border-radius:2px;transition:background .25s}
+.seg.done{background:var(--ink)}
+.seg.skip{background:var(--orange)}
+.seg.cur{background:var(--blue)}
+.progress .info{max-width:820px;margin:8px auto 0;display:flex;justify-content:space-between;gap:12px;font:12px var(--mono);color:var(--muted)}
+.progress .info b{color:var(--ink);font-weight:500}
+main{max-width:820px;margin:0 auto;padding:40px 24px 90px}
+
+.qcard{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px 34px 28px;overflow:hidden}
+.qcard::before{content:"";position:absolute;left:0;top:0;right:0;height:5px;background:var(--c)}
+.bignum{position:absolute;right:22px;top:6px;font-family:var(--serif);font-size:150px;line-height:1;font-weight:500;color:transparent;-webkit-text-stroke:1px var(--line2);opacity:.65;pointer-events:none;letter-spacing:-.04em}
+.qtop{position:relative;display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.qicon{width:50px;height:50px;border-radius:12px;background:var(--cs);color:var(--c);display:grid;place-items:center;flex:none}
+.qicon svg{width:26px;height:26px}
+.qmeta{display:flex;flex-direction:column}
+.qnum{font:500 12px var(--mono);color:var(--muted);letter-spacing:.06em}
+.qtype{font-weight:700;font-size:17px}
+.dimpill{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:5px 9px;border-radius:4px;background:var(--cs);color:var(--c)}
+.late{position:relative;display:inline-block;font:500 12px var(--mono);color:var(--orange-d);background:var(--orange-s);padding:5px 9px;border-radius:4px;margin-bottom:14px}
+.prompt{position:relative;font-family:var(--serif);font-size:28px;line-height:1.26;font-weight:500;margin:0 0 10px;letter-spacing:-.008em;max-width:640px}
+.hint{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px;margin:0 0 24px}
+.hint::before{content:"";width:16px;height:2px;background:var(--c)}
+.ctx{position:relative;font-size:15px;color:var(--ink2);margin:0 0 12px;max-width:600px}
+
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:15px 16px;font:16px/1.45 var(--sans);color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.opt:hover:not([disabled]){border-color:var(--ink);transform:translateX(2px)}
+.opt[disabled]{cursor:default}
+.opt .key{flex:none;width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font:500 12px var(--mono);background:var(--soft);color:var(--muted)}
+.opt.multi .key{border-radius:50%}
+.opt.sel{border-color:var(--ink);background:#FAFAFA}
+.opt.sel .key{background:var(--ink);color:#fff}
+.opt.ok{border-color:var(--ok);background:var(--ok-s)}
+.opt.ok .key{background:var(--ok);color:#fff}
+.opt.miss{border-style:dashed}
+.opt.miss .key{background:transparent;color:var(--ok);border:1.5px dashed var(--ok)}
+.opt.bad{border-color:var(--bad);background:var(--bad-s)}
+.opt.bad .key{background:var(--bad);color:#fff}
+
+.spot{font-family:var(--serif);font-size:21px;line-height:1.8;background:#FBFBF9;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:24px 28px}
+.frag{cursor:pointer;padding:2px 3px;border-bottom:2px dotted var(--line2);transition:background .15s}
+.frag:hover{background:var(--cs)}
+.frag.sel{background:var(--cs);border-bottom:2px solid var(--c)}
+.frag.ok{background:var(--ok-s);border-bottom:2px solid var(--ok)}
+.frag.bad{background:var(--bad-s);border-bottom:2px solid var(--bad)}
+.frag.locked{cursor:default}
+
+.lbl{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+.pool{display:flex;flex-wrap:wrap;gap:8px;padding:14px;border:1.5px dashed var(--line2);border-radius:10px;min-height:62px;margin-bottom:18px;background:#FBFBF9}
+.pool.empty::after{content:"Todo ubicado";font:13px var(--sans);color:var(--faint);align-self:center}
+.chip{font:14px/1.35 var(--sans);background:var(--paper);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;cursor:pointer;text-align:left;color:var(--ink);transition:border-color .15s,box-shadow .15s;box-shadow:0 1px 0 var(--line)}
+.chip:hover:not([disabled]){border-color:var(--ink)}
+.chip.sel{border-color:var(--c);box-shadow:0 0 0 3px var(--cs)}
+.chip.ok{border-color:var(--ok);background:var(--ok-s);box-shadow:none}
+.chip.bad{border-color:var(--bad);background:var(--bad-s);box-shadow:none}
+.chip[disabled]{cursor:default}
+.chip .fix{display:block;font:11px var(--mono);color:var(--bad);margin-top:4px}
+.buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.bucket{border:1px solid var(--line);background:var(--paper);border-radius:10px;min-height:140px;display:flex;flex-direction:column;gap:8px;padding:0 10px 10px;overflow:hidden;transition:background .15s,border-color .15s}
+.bucket h5{margin:0 -10px 4px;padding:10px 12px;font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.05em;background:var(--bk,var(--soft));color:var(--bkc,var(--ink))}
+.bucket h5 span{display:block;font:400 12px var(--sans);text-transform:none;letter-spacing:0;opacity:.8;margin-top:2px}
+.armed .bucket{cursor:pointer;border-color:var(--c);border-style:dashed}
+.armed .bucket:hover{background:var(--cs)}
+.over{background:var(--cs)!important}
+
+.olist{list-style:none;margin:0;padding:0;counter-reset:o}
+.orow{display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 10px 10px 12px;margin-bottom:8px;cursor:grab;box-shadow:0 1px 0 var(--line)}
+.orow.locked{cursor:default}
+.orow .n{width:30px;height:30px;border-radius:7px;background:var(--cs);color:var(--c);display:grid;place-items:center;font:500 12px var(--mono);flex:none}
+.orow .grip{width:10px;height:18px;flex:none;background-image:radial-gradient(var(--line2) 1.4px,transparent 1.6px);background-size:5px 6px}
+.orow .t{flex:1;font-size:15px}
+.orow .mv{display:flex;gap:6px;flex:none}
+.mvb{width:34px;height:34px;border:1px solid var(--line);background:var(--paper);border-radius:6px;cursor:pointer;font:14px var(--mono);color:var(--ink);display:grid;place-items:center}
+.mvb:hover:not([disabled]){border-color:var(--ink)}
+.mvb[disabled]{opacity:.3;cursor:default}
+.orow.ok{border-color:var(--ok);background:var(--ok-s)}
+.orow.ok .n{background:var(--ok);color:#fff}
+.orow.bad{border-color:var(--bad);background:var(--bad-s)}
+.orow.bad .n{background:var(--bad);color:#fff}
+.orow.dragging{opacity:.4}
+
+.match{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mi{position:relative;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px 12px 48px;font:15px/1.4 var(--sans);color:var(--ink);cursor:pointer;min-height:60px;transition:border-color .15s;box-shadow:0 1px 0 var(--line)}
+.mi:hover:not([disabled]){border-color:var(--ink)}
+.mi[disabled]{cursor:default}
+.mi .tag2{position:absolute;left:12px;top:12px;width:26px;height:26px;border-radius:6px;font:500 12px var(--mono);display:grid;place-items:center;background:var(--soft);color:var(--faint)}
+.mi.paired .tag2{background:var(--ink);color:#fff}
+.mi.sel{border-color:var(--c);box-shadow:0 0 0 3px var(--cs)}
+.mi.sel .tag2{background:var(--c);color:#fff}
+.mi.ok{border-color:var(--ok);background:var(--ok-s)}
+.mi.ok .tag2{background:var(--ok)}
+.mi.bad{border-color:var(--bad);background:var(--bad-s)}
+.mi.bad .tag2{background:var(--bad)}
+.mi .fix{display:block;font-size:13px;color:var(--bad);margin-top:6px}
+
+.cloze{font-family:var(--serif);font-size:20px;line-height:2.2;background:#FBFBF9;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:20px 28px}
+.blank{display:inline-block;min-width:120px;padding:0 10px;margin:0 2px;border:0;border-bottom:2px solid #9AA3AD;background:var(--soft);font:15px/30px var(--sans);cursor:pointer;color:var(--ink);border-radius:4px 4px 0 0;vertical-align:baseline;text-align:center}
+.blank.act{border-bottom-color:var(--c);background:var(--cs)}
+.blank.ok{border-bottom-color:var(--ok);background:var(--ok-s)}
+.blank.bad{border-bottom-color:var(--bad);background:var(--bad-s)}
+.blank .fix{font:12px var(--mono);color:var(--bad);margin-left:6px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip.used{opacity:.3;pointer-events:none}
+
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);gap:12px;flex-wrap:wrap}
+.fb{margin-top:24px;padding:18px 20px 18px 18px;border-radius:12px;display:grid;grid-template-columns:38px 1fr;gap:14px;background:var(--soft)}
+.fb .fi{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.fb .fi svg{width:20px;height:20px}
+.fb.ok{background:var(--ok-s)} .fb.ok .fi{background:var(--ok)}
+.fb.mid{background:var(--orange-s)} .fb.mid .fi{background:var(--orange)}
+.fb.bad{background:var(--bad-s)} .fb.bad .fi{background:var(--bad)}
+.fb h4{margin:6px 0 6px;font-size:15px;display:flex;justify-content:space-between;gap:12px}
+.fb h4 .pts{font:500 13px var(--mono);color:var(--ink2)}
+.fb p{margin:0;color:var(--ink2);font-size:15px}
+.fb ol{margin:12px 0 0;padding-left:20px;font-size:14px;color:var(--ink2)}
+
+/* Resumen */
+.head2{font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.08;margin:0 0 10px;letter-spacing:-.012em}
+.subt{color:var(--muted);margin:0 0 28px;max-width:600px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;text-align:left;font:inherit;color:inherit;display:flex;flex-direction:column;gap:8px;min-height:132px}
+.tile .tn{font:500 12px var(--mono);color:var(--muted)}
+.tile .ti{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--cs);color:var(--c)}
+.tile .ti svg{width:18px;height:18px}
+.tile .tt{font-size:13.5px;font-weight:600;line-height:1.25}
+.tile .ts{margin-top:auto;font:500 12px var(--mono);color:var(--muted)}
+.tile.done::after{content:"";position:absolute;right:12px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--ink)}
+.tile.skip{border:1.5px dashed var(--orange);background:var(--orange-s);cursor:pointer}
+.tile.skip .ts{color:var(--orange-d)}
+.tile.skip:hover{background:#FDE5D3}
+
+/* Resultado */
+.rhead{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px 34px}
+.gauge{width:250px}
+.gauge svg{width:100%;height:auto;display:block}
+.gauge text{font-family:var(--serif)}
+.status{display:inline-block;font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:5px 9px;border-radius:4px;margin:0 0 14px}
+.status.ok{background:var(--ok-s);color:var(--ok)}
+.status.bad{background:var(--bad-s);color:var(--bad)}
+.lead2{font-family:var(--serif);font-size:21px;line-height:1.42;margin:0 0 10px}
+.who{font-size:13px;color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--k)}
+.stat b{display:block;font:500 28px var(--mono)}
+.stat span{font-size:13px;color:var(--muted)}
+.h3{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:36px 0 14px}
+.dims{display:flex;flex-direction:column;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+.dim{display:grid;grid-template-columns:30px 120px 1fr 52px;align-items:center;gap:12px;font-size:14px}
+.dim .dc{width:30px;height:30px;border-radius:7px;background:var(--cs);color:var(--c);display:grid;place-items:center;font:600 12px var(--mono)}
+.track{height:10px;background:var(--soft);border-radius:999px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--c);border-radius:999px;transition:width 1s ease}
+.dim b{font:500 13px var(--mono);text-align:right}
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.tip{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.tip small{display:block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.tip.a small{color:var(--ok)}
+.tip.b small{color:var(--orange-d)}
+.tip p{margin:0;font-size:14px;color:var(--ink2)}
+.rvlist{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:4px 20px}
+details.rv{border-bottom:1px solid var(--line)}
+details.rv:last-child{border-bottom:0}
+details.rv summary{list-style:none;display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:center;padding:14px 0;cursor:pointer}
+details.rv summary::-webkit-details-marker{display:none}
+details.rv .ri{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--cs);color:var(--c)}
+details.rv .ri svg{width:18px;height:18px}
+details.rv .q{font-size:15px;line-height:1.4}
+details.rv .q small{display:block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--c);margin-bottom:3px}
+details.rv .body{padding:0 0 18px 48px;font-size:14px;color:var(--ink2)}
+details.rv .body p{margin:0}
+.st{font:500 12px var(--mono);white-space:nowrap;padding:4px 8px;border-radius:4px}
+.st.d{background:var(--soft);color:var(--ink2)}
+.st.full{background:var(--ok-s);color:var(--ok)}
+.st.s{background:var(--orange-s);color:var(--orange-d)}
+.endbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(17,17,17,.55);display:grid;place-items:center;padding:16px;z-index:40}
+.dialog{background:var(--paper);border-radius:14px;max-width:460px;width:100%;padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+.dialog h4{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.1;margin:0 0 8px}
+.dialog p{margin:0 0 20px;color:var(--ink2);font-size:15px}
+.dialog label{display:block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 6px}
+.dialog input{width:100%;font:16px var(--sans);padding:12px 14px;border:1px solid var(--line2);border-radius:8px;margin-bottom:14px;color:var(--ink)}
+.dialog input:focus{outline:none;border-color:var(--ink)}
+.dialog .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:6px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:14px;padding:10px 16px;border-radius:8px;z-index:50}
+
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding-top:56px;padding-bottom:60px}
+  .hero h1{font-size:54px}
+  .sec-h{grid-template-columns:1fr;gap:14px}
+  .stats5{grid-template-columns:repeat(2,1fr)}
+  .st5{border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-height:0}
+  .st5:nth-child(2n){border-right:0}
+  .st5:last-child{grid-column:span 2;border-bottom:0}
+  .cloud-wrap,.crit,.score{grid-template-columns:1fr}
+  .hintcard{position:static}
+  .mech{grid-template-columns:repeat(2,1fr)}
+  .rhead{grid-template-columns:1fr;justify-items:start}
+}
+@media (max-width:640px){
+  :root{--hh:56px}
+  .wrap{padding:0 18px}
+  .top{padding:0 16px}
+  .brand > span,.meta,.brand .lg{display:none}
+  .brand .sh{display:inline}
+  #topCta{padding:8px 12px;font-size:13px}
+  .sec{padding:68px 0}
+  .sec-h h2{font-size:34px}
+  .hero h1{font-size:42px}
+  .hero .lead{font-size:16px}
+  .hero-meta{grid-template-columns:repeat(2,1fr);row-gap:14px}
+  .hero-meta li:nth-child(2){border-right:0}
+  .mw{font-size:40px;padding:0 18px}
+  .st5 .big{font-size:64px}
+  .cloud{padding:24px 16px;min-height:0}
+  .tag.w3{font-size:26px}
+  .tag.w2{font-size:16px}
+  .mech{grid-template-columns:1fr}
+  .l2{width:88%} .l3{width:76%}
+  .dimgrid{grid-template-columns:1fr}
+  .final blockquote{font-size:32px}
+  .progress{padding:10px 16px 8px}
+  main{padding:24px 12px 80px}
+  .qcard{padding:24px 18px 22px;border-radius:14px}
+  .bignum{display:none}
+  .prompt{font-size:23px}
+  .spot,.cloze{font-size:18px;padding:18px}
+  .match{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:1fr 1fr}
+  .tips{grid-template-columns:1fr}
+  .dim{grid-template-columns:28px 92px 1fr 42px;gap:8px}
+  .rhead{padding:22px}
+  .head2{font-size:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  .mrow,.flow,.live{animation:none!important}
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+@media print{
+  .top,.progress,.endbar,.modal,.toast,#landing{display:none!important}
+  .appview{background:#fff}
+  main{padding:0}
+  .tip,.fb,.rhead{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="brand" data-home aria-label="Ir a la portada">
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="14" width="6" height="9" rx="1" fill="#1769AA"/><rect x="9" y="8" width="6" height="15" rx="1" fill="#007F73"/><rect x="17" y="2" width="6" height="21" rx="1" fill="#F47A24"/></svg>
+    <b><span class="lg">Gestión de Información</span><span class="sh">GID</span></b><span>Universidad de La Salle</span>
+  </button>
+  <div class="topr"><span class="meta" id="topMeta"></span><button class="btn small" id="topCta" data-start>Empezar la prueba</button></div>
+</header>
+
+<!-- =================== PORTADA =================== -->
+<div id="landing">
+  <div class="resume-bar" id="resumeBar" hidden><div class="wrap"><span id="resumeTxt"></span><button data-start id="resumeBtn">Continuar</button></div></div>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-txt">
+        <p class="kicker"><span class="live"></span>Prueba de lectura · Scavone y Marchesano (2025)</p>
+        <h1>De guardar datos a <em>decidir</em> con ellos</h1>
+        <p class="lead">Doce retos sobre qué debe tener un sistema de información gerencial para servir de verdad. No hay preguntas de memoria: vas a analizar, criticar y llevar el artículo a archivos, bibliotecas y entidades públicas.</p>
+        <div class="cta-row">
+          <button class="btn accent" data-start><span class="ctaLabel">Empezar la prueba</span><span class="arr">→</span></button>
+          <a class="btn light" href="#pistas">Ver las pistas</a>
+        </div>
+        <ul class="hero-meta">
+          <li><b>12</b>retos al azar</li>
+          <li><b>~25</b>minutos</li>
+          <li><b>7</b>mecánicas</li>
+          <li><b>0–5</b>nota final</li>
+        </ul>
+      </div>
+      <div class="hero-fig" aria-label="Diagrama: tres familias de variables entran al sistema de información gerencial y salen como apoyo a la planificación, el control y la operación, hasta llegar a decisiones que crean valor.">
+        <svg viewBox="0 0 600 436" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B7380"/></marker>
+          </defs>
+          <!-- Entradas -->
+          <g>
+            <rect x="0" y="8" width="176" height="112" rx="10" fill="#1A1D21" stroke="#2C3138"/>
+            <rect x="0" y="8" width="4" height="112" rx="2" fill="#1769AA"/>
+            <text x="18" y="33" fill="#5FA3DB" font-size="10.5" letter-spacing="1.4" font-weight="600">MACROECONÓMICAS</text>
+            <circle cx="22" cy="55" r="3" fill="#1769AA"/><text x="34" y="59" fill="#D6D9DE" font-size="13">Inflación</text>
+            <circle cx="22" cy="77" r="3" fill="#1769AA"/><text x="34" y="81" fill="#D6D9DE" font-size="13">Tipo de cambio</text>
+            <circle cx="22" cy="99" r="3" fill="#1769AA"/><text x="34" y="103" fill="#D6D9DE" font-size="13">Tasas de interés</text>
+          </g>
+          <g>
+            <rect x="0" y="164" width="176" height="112" rx="10" fill="#1A1D21" stroke="#2C3138"/>
+            <rect x="0" y="164" width="4" height="112" rx="2" fill="#00A896"/>
+            <text x="18" y="189" fill="#3CC2B2" font-size="10.5" letter-spacing="1.4" font-weight="600">MICROECONÓMICAS</text>
+            <circle cx="22" cy="211" r="3" fill="#00A896"/><text x="34" y="215" fill="#D6D9DE" font-size="13">Oferta y demanda</text>
+            <circle cx="22" cy="233" r="3" fill="#00A896"/><text x="34" y="237" fill="#D6D9DE" font-size="13">Costos y precios</text>
+            <circle cx="22" cy="255" r="3" fill="#00A896"/><text x="34" y="259" fill="#D6D9DE" font-size="13">Rotación de personal</text>
+          </g>
+          <g>
+            <rect x="0" y="320" width="176" height="112" rx="10" fill="#1A1D21" stroke="#2C3138"/>
+            <rect x="0" y="320" width="4" height="112" rx="2" fill="#F0A128"/>
+            <text x="18" y="345" fill="#F5BD64" font-size="10.5" letter-spacing="1.4" font-weight="600">SUSTENTABILIDAD</text>
+            <circle cx="22" cy="367" r="3" fill="#F0A128"/><text x="34" y="371" fill="#D6D9DE" font-size="13">Huella de carbono</text>
+            <circle cx="22" cy="389" r="3" fill="#F0A128"/><text x="34" y="393" fill="#D6D9DE" font-size="13">Consumo de agua</text>
+            <circle cx="22" cy="411" r="3" fill="#F0A128"/><text x="34" y="415" fill="#D6D9DE" font-size="13">Ética y gobernanza</text>
+          </g>
+          <!-- Conexiones de entrada -->
+          <path id="p1" d="M176 64 C 214 64, 206 160, 244 160" fill="none" stroke="#1769AA" stroke-width="1.5" class="flow"/>
+          <path id="p2" d="M176 220 C 214 220, 206 242, 244 242" fill="none" stroke="#00A896" stroke-width="1.5" class="flow"/>
+          <path id="p3" d="M176 376 C 214 376, 206 324, 244 324" fill="none" stroke="#F0A128" stroke-width="1.5" class="flow"/>
+          <!-- Sistema -->
+          <text x="306" y="106" fill="#fff" font-size="26" text-anchor="middle" style="font-family:Newsreader,Georgia,serif">SIG</text>
+          <text x="306" y="124" fill="#8A939E" font-size="9.5" text-anchor="middle" letter-spacing="1">5 COMPONENTES</text>
+          <g font-size="12.5" text-anchor="middle">
+            <rect x="244" y="136" width="124" height="36" rx="7" fill="#22303F" stroke="#2F4A66"/><text x="306" y="159" fill="#E8EAED">Datos</text>
+            <rect x="244" y="180" width="124" height="36" rx="7" fill="#1E2227" stroke="#3A3F47"/><text x="306" y="203" fill="#E8EAED">Personas</text>
+            <rect x="244" y="224" width="124" height="36" rx="7" fill="#1E2227" stroke="#3A3F47"/><text x="306" y="247" fill="#E8EAED">Procedimientos</text>
+            <rect x="244" y="268" width="124" height="36" rx="7" fill="#1E2227" stroke="#3A3F47"/><text x="306" y="291" fill="#E8EAED">Software</text>
+            <rect x="244" y="312" width="124" height="36" rx="7" fill="#1E2227" stroke="#3A3F47"/><text x="306" y="335" fill="#E8EAED">Hardware</text>
+          </g>
+          <!-- Salidas -->
+          <path id="p4" d="M368 230 C 400 230, 398 66, 428 66" fill="none" stroke="#6B7380" stroke-width="1.5" class="flow" marker-end="url(#ar)"/>
+          <path id="p5" d="M368 242 C 400 242, 398 138, 428 138" fill="none" stroke="#6B7380" stroke-width="1.5" class="flow" marker-end="url(#ar)"/>
+          <path id="p6" d="M368 254 C 400 254, 398 210, 428 210" fill="none" stroke="#6B7380" stroke-width="1.5" class="flow" marker-end="url(#ar)"/>
+          <g>
+            <rect x="432" y="40" width="168" height="52" rx="10" fill="#1A1D21" stroke="#3A3F47"/>
+            <text x="450" y="63" fill="#fff" font-size="14" font-weight="600">Planificación</text><text x="450" y="80" fill="#8A939E" font-size="11">qué vamos a hacer</text>
+            <rect x="432" y="112" width="168" height="52" rx="10" fill="#1A1D21" stroke="#3A3F47"/>
+            <text x="450" y="135" fill="#fff" font-size="14" font-weight="600">Control</text><text x="450" y="152" fill="#8A939E" font-size="11">comparar con lo previsto</text>
+            <rect x="432" y="184" width="168" height="52" rx="10" fill="#1A1D21" stroke="#3A3F47"/>
+            <text x="450" y="207" fill="#fff" font-size="14" font-weight="600">Operación</text><text x="450" y="224" fill="#8A939E" font-size="11">qué hacemos hoy</text>
+          </g>
+          <line x1="516" y1="236" x2="516" y2="270" stroke="#6B7380" stroke-width="1.5" class="flow" marker-end="url(#ar)"/>
+          <rect x="432" y="276" width="168" height="72" rx="10" fill="#F47A24"/>
+          <text x="450" y="306" fill="#111" font-size="17" font-weight="700">Decisiones</text>
+          <text x="450" y="327" fill="#111" font-size="13">que crean valor</text>
+          <!-- Retroalimentación -->
+          <path id="p7" d="M516 348 V 394 Q516 404 506 404 H 316 Q306 404 306 394 V 352" fill="none" stroke="#00A896" stroke-width="1.5" class="flow" marker-end="url(#ar)"/>
+          <text x="411" y="426" fill="#8A939E" font-size="11" text-anchor="middle" font-style="italic" letter-spacing=".5">retroalimentación</text>
+          <!-- Datos en movimiento -->
+          <g class="dots">
+            <circle r="3.5" fill="#5FA3DB"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#p1" xlink:href="#p1"/></animateMotion></circle>
+            <circle r="3.5" fill="#3CC2B2"><animateMotion dur="2.6s" begin=".8s" repeatCount="indefinite"><mpath href="#p2" xlink:href="#p2"/></animateMotion></circle>
+            <circle r="3.5" fill="#F5BD64"><animateMotion dur="2.6s" begin="1.5s" repeatCount="indefinite"><mpath href="#p3" xlink:href="#p3"/></animateMotion></circle>
+            <circle r="3" fill="#fff"><animateMotion dur="2.2s" begin=".4s" repeatCount="indefinite"><mpath href="#p4" xlink:href="#p4"/></animateMotion></circle>
+            <circle r="3" fill="#fff"><animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite"><mpath href="#p5" xlink:href="#p5"/></animateMotion></circle>
+            <circle r="3" fill="#fff"><animateMotion dur="2.2s" begin="1.8s" repeatCount="indefinite"><mpath href="#p6" xlink:href="#p6"/></animateMotion></circle>
+            <circle r="3.5" fill="#3CC2B2"><animateMotion dur="4s" repeatCount="indefinite"><mpath href="#p7" xlink:href="#p7"/></animateMotion></circle>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="mrow" id="mq1"></div>
+    <div class="mrow rev" id="mq2"></div>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-h reveal">
+        <div><p class="eyebrow">01 · El artículo en cifras</p><h2>Cinco números para ubicarte antes de empezar</h2></div>
+        <p>Si los tienes claros, ya sabes de qué está hecho el argumento. Lo que viene después es ver dónde se sostiene y dónde no.</p>
+      </div>
+      <div class="stats5 reveal">
+        <div class="st5"><span class="big" data-count="6">6</span><h4>empresas analizadas</h4><p>Líderes de su sector, con acceso al mercado de capitales. Elegidas por su importancia.</p>
+          <div class="mini"><i style="width:18px;height:18px;background:#111"></i><i style="width:18px;height:18px;background:#111"></i><i style="width:18px;height:18px;background:#111"></i><i style="width:18px;height:18px;background:#111"></i><i style="width:18px;height:18px;background:#111"></i><i style="width:18px;height:18px;background:#111"></i></div></div>
+        <div class="st5"><span class="big" data-count="3">3</span><h4>familias de variables</h4><p>Macroeconómicas, microeconómicas y de sustentabilidad.</p>
+          <div class="mini col"><i style="height:8px;width:100%;background:var(--blue)"></i><i style="height:8px;width:78%;background:var(--teal)"></i><i style="height:8px;width:56%;background:var(--amber)"></i></div></div>
+        <div class="st5"><span class="big" data-count="5">5</span><h4>componentes del SIG</h4><p>Datos, personas, procedimientos, software y hardware.</p>
+          <div class="mini col"><i style="height:6px;width:100%;background:var(--navy)"></i><i style="height:6px;width:100%;background:#2C5A82"></i><i style="height:6px;width:100%;background:#4F7CA3"></i><i style="height:6px;width:100%;background:#86A8C6"></i><i style="height:6px;width:100%;background:#BFD2E3"></i></div></div>
+        <div class="st5"><span class="big" data-count="3">3</span><h4>funciones que apoya</h4><p>Planificación, control y operación de la organización.</p>
+          <div class="mini"><span class="pill">PLAN</span><span class="pill">CONTROL</span><span class="pill">OPERACIÓN</span></div></div>
+        <div class="st5"><span class="big" data-count="4">4</span><h4>marcos de reporte</h4><p>Iniciativas que ordenan los indicadores de sostenibilidad.</p>
+          <div class="mini"><span class="pill">GRI</span><span class="pill">SASB</span><span class="pill">EFRAG</span><span class="pill">ISSB</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="pistas" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-h reveal">
+        <div><p class="eyebrow">02 · Palabras clave</p><h2>Toca una palabra y llévate una pista</h2></div>
+        <p>Cada término aparece de alguna forma en los retos. La pista no te da la respuesta, pero te dice dónde mirar.</p>
+      </div>
+      <div class="cloud-wrap reveal">
+        <div>
+          <div class="filters" id="filters"></div>
+          <div class="cloud" id="cloud"></div>
+        </div>
+        <aside class="hintcard" id="hintcard" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-h reveal">
+        <div><p class="eyebrow">03 · Lo que te vas a encontrar</p><h2>Siete mecánicas, una sola lectura</h2></div>
+        <p>Cada intento combina las siete. El número indica cuántos retos de cada tipo te tocan.</p>
+      </div>
+      <div class="mech reveal" id="mech"></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-h reveal">
+        <div><p class="eyebrow">04 · Leer con ojo crítico</p><h2>No todo lo que se concluye fue observado</h2></div>
+        <p>Muchos retos te piden separar tres capas. Practica con este caso, que no está en la prueba.</p>
+      </div>
+      <div class="crit reveal">
+        <div class="funnel">
+          <div class="layer l1"><span class="ln">01</span><b>Lo observado</b><small>Lo que el estudio miró de verdad: documentos, entrevistas, cifras.</small></div>
+          <span class="gap">se estrecha</span>
+          <div class="layer l2"><span class="ln">02</span><b>Lo que se puede afirmar</b><small>Lo que se sigue de ahí sin estirar la evidencia.</small></div>
+          <span class="gap">queda por fuera</span>
+          <div class="layer l3"><span class="ln">03</span><b>Lo que se supone</b><small>Lo que el autor cree, pero no midió.</small></div>
+        </div>
+        <div class="case">
+          <h3>«Las tres bibliotecas que más prestan tienen horario extendido. Hay que extender el horario.»</h3>
+          <div class="crow"><i style="background:#111"></i><div><b>Observado</b><p>Tres bibliotecas con muchos préstamos tienen horario extendido.</p></div></div>
+          <div class="crow"><i style="background:var(--blue)"></i><div><b>Afirmable</b><p>En esas tres bibliotecas conviven las dos cosas.</p></div></div>
+          <div class="crow"><i style="background:var(--orange)"></i><div><b>Supuesto</b><p>Que el horario cause los préstamos, y que funcione igual en cualquier biblioteca.</p></div></div>
+          <div class="q">¿Qué haría falta para salir de la duda? Mirar bibliotecas con horario extendido que prestan poco, y bibliotecas que prestan mucho sin él.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-h reveal">
+        <div><p class="eyebrow">05 · Cómo se califica</p><h2>Saltar se puede, pero cuesta</h2></div>
+        <p>Puedes dejar un reto para el final. Antes de entregar verás cuáles te faltan y podrás responderlos.</p>
+      </div>
+      <div class="score reveal">
+        <div class="card">
+          <h3>Valor de cada reto</h3>
+          <p class="sub">Con crédito parcial en clasificar, ordenar, relacionar y completar.</p>
+          <div class="bars3">
+            <div class="b3"><span class="v">10</span><span class="col" style="height:100%;background:#111"></span></div>
+            <div class="b3"><span class="v">7</span><span class="col" style="height:70%;background:var(--orange)"></span></div>
+            <div class="b3"><span class="v">0</span><span class="col" style="height:4px;background:var(--line2)"></span></div>
+          </div>
+          <div class="b3l"><span>Respondido a tiempo</span><span>Saltado y respondido al final</span><span>Sin responder</span></div>
+        </div>
+        <div class="card">
+          <h3>Nota de 0,0 a 5,0</h3>
+          <p class="sub">El resultado te muestra cómo te fue en cada dimensión de lectura.</p>
+          <div class="scale">
+            <span class="mk">APRUEBA 3,0</span>
+            <div class="track"><span style="background:#F3D3CF"></span><span style="background:#FCE3C4"></span><span style="background:#CFE1F0"></span><span style="background:#CDE8D8"></span></div>
+            <div class="ticks"><span>0,0</span><span>1,0</span><span>2,0</span><span>3,0</span><span>4,0</span><span>5,0</span></div>
+          </div>
+          <div class="dimgrid" id="dimgrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <small>Pregunta guía</small>
+      <blockquote>¿En qué momento una organización deja de limitarse a administrar información y comienza a utilizarla para crear valor?</blockquote>
+      <button class="btn accent" data-start><span class="ctaLabel">Empezar la prueba</span><span class="arr">→</span></button>
+      <p class="note">Tu avance se guarda en este navegador. Si recargas la página, sigues donde ibas.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>Scavone, G., &amp; Marchesano, M. (2025). Análisis de variables clave para el diseño de un sistema de información gerencial eficiente. <em>Cuadernos de Contabilidad, 26</em>. <a href="https://doi.org/10.11144/Javeriana.cc25.avds" target="_blank" rel="noopener">https://doi.org/10.11144/Javeriana.cc25.avds</a></span>
+      <span>Gestión de Información · Universidad de La Salle</span>
+    </div>
+  </footer>
+</div>
+
+<!-- =================== PRUEBA =================== -->
+<div id="appView" class="appview" hidden>
+  <div class="progress" id="progress" hidden></div>
+  <main id="app"></main>
+</div>
+
+<div class="modal" id="modal" hidden></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ===================== Configuración ===================== */
+var CONFIG = {
+  storageKey: "gid-lectura-sig-v1",
+  puntos: 10,
+  factorTardio: 0.7,
+  aprobacion: 3.0,
+  mezcla: { mc: 5, multi: 1, spot: 2, classify: 1, order: 1, match: 1, cloze: 1 }
+};
+
+var DIMS = { analisis: "Análisis", critica: "Crítica", reflexion: "Reflexión", transferencia: "Transferencia" };
+var DIMC = {
+  analisis: ["var(--blue)", "var(--blue-s)"],
+  critica: ["var(--orange-d)", "var(--orange-s)"],
+  reflexion: ["var(--teal)", "var(--teal-s)"],
+  transferencia: ["var(--brown)", "var(--brown-s)"]
+};
+var DIMD = {
+  analisis: "Descomponer el sistema y ver cómo se relacionan sus partes.",
+  critica: "Separar lo que la evidencia permite afirmar de lo que se supone.",
+  reflexion: "Pensar el uso, el valor y los límites éticos de la información.",
+  transferencia: "Llevar las categorías a archivos, bibliotecas y entidades."
+};
+var TYPES = { mc: "Escenario", multi: "Varias respuestas", spot: "Encuentra la falla", classify: "Clasifica", order: "Ordena", match: "Relaciona", cloze: "Completa" };
+
+function svg(p){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>'; }
+var ICON = {
+  mc: svg('<circle cx="12" cy="12" r="9.5"/><path d="m15.8 8.2-2.2 5.4-5.4 2.2 2.2-5.4z"/>'),
+  multi: svg('<path d="m9 11 3 3 9-9"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'),
+  spot: svg('<circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.5-4.5"/><path d="M11 8v3.5M11 14h.01"/>'),
+  classify: svg('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/>'),
+  order: svg('<path d="M10 6h11M10 12h11M10 18h11"/><path d="M4 5h1.5v4"/><path d="M6.5 18H3.8c0-1 2.6-1.8 2.6-3.1 0-.8-.6-1.3-1.4-1.3-.6 0-1.1.3-1.3.8"/>'),
+  match: svg('<path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.4 1.4"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.4-1.4"/>'),
+  cloze: svg('<path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M12 4v16M9 20h6"/><path d="M3 13h4M17 13h4" stroke-dasharray="1 2"/>'),
+  check: svg('<path d="M20 6 9 17l-5-5"/>'),
+  x: svg('<path d="M18 6 6 18M6 6l12 12"/>'),
+  half: svg('<path d="M5 12h14"/>'),
+  tap: svg('<path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10"/><path d="M12 10V8.5a1.5 1.5 0 0 1 3 0V11"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1.2a6 6 0 0 1-4.6-2.2L3.6 15.4a1.6 1.6 0 0 1 2.4-2l1.9 1.9V11"/>')
+};
+var TYPEC = { mc: "analisis", multi: "transferencia", spot: "critica", classify: "reflexion", order: "analisis", match: "transferencia", cloze: "reflexion" };
+
+/* ===================== Banco de retos ===================== */
+var BANK = [
+/* ---------- Escenarios ---------- */
+{ id:"m01", type:"mc", dim:"critica",
+  prompt:"Las autoras revisan memorias, estados financieros y reportes de sostenibilidad de seis empresas, y de ahí concluyen que la gerencia usa variables macro, micro y de sustentabilidad para decidir. ¿Dónde está el salto más débil de ese razonamiento?",
+  options:[
+    {t:"Un informe publicado muestra lo que la empresa comunica hacia afuera. No muestra, por sí solo, qué información usa la gerencia cuando decide.", ok:true},
+    {t:"Seis empresas son demasiadas para un análisis cualitativo y eso dispersa los hallazgos."},
+    {t:"Los reportes de sostenibilidad no tienen ningún valor como fuente, porque los redacta la misma empresa."},
+    {t:"Las variables macroeconómicas no pueden aparecer en una memoria anual."}
+  ],
+  why:"El estudio observa divulgación. Para afirmar uso en decisiones haría falta otra evidencia: entrevistas, actas de comité, tableros internos. Por eso la conclusión dice que «se presume» el aporte. El autorreporte tiene sesgos, pero descartarlo por completo (tercera opción) es exagerar." },
+
+{ id:"m02", type:"mc", dim:"critica",
+  prompt:"La conclusión afirma que hay una relación entre las variables microeconómicas y el desempeño de la empresa. Con el diseño que tiene el estudio, ¿qué haría falta para sostener esa afirmación?",
+  options:[
+    {t:"Comparar organizaciones que usan esas variables con otras que no las usan, y medir el desempeño de ambas en el tiempo.", ok:true},
+    {t:"Sumar más autores que digan lo mismo en el marco teórico."},
+    {t:"Ampliar la lista de variables de sustentabilidad de cada empresa."},
+    {t:"Nada más: si todas las empresas líderes las usan, la relación queda demostrada."}
+  ],
+  why:"Las seis empresas son líderes y todas reportan las variables, así que no hay variación que comparar. Sin un grupo de contraste y sin una medida de desempeño no se puede hablar de relación. La última opción es el error clásico de mirar solo a los ganadores." },
+
+{ id:"m03", type:"mc", dim:"transferencia",
+  prompt:"La biblioteca de una universidad paga casi todas sus bases de datos en dólares, pero su presupuesto se aprueba en pesos meses antes de la renovación. Siguiendo la lógica del artículo, ¿qué variable debería estar en su sistema de información para que esa decisión no la tome por sorpresa?",
+  options:[
+    {t:"El tipo de cambio y su proyección para la fecha de pago.", ok:true},
+    {t:"El número de visitas mensuales a la página web de la biblioteca."},
+    {t:"La tasa de desempleo nacional."},
+    {t:"La cantidad de libros recibidos en donación el último año."}
+  ],
+  why:"Es una variable macro que mueve un costo concreto de la biblioteca. El desempleo también es macro, pero no tiene un vínculo directo con esta decisión. El criterio no es cargar todas las variables del entorno, sino las que afectan decisiones propias." },
+
+{ id:"m04", type:"mc", dim:"reflexion",
+  prompt:"Un archivo municipal digitalizó todos sus expedientes y tiene un repositorio impecable. Sin embargo, nadie en la alcaldía consulta los informes que produce. A la luz del artículo, ¿cómo describirías esta situación?",
+  options:[
+    {t:"Administra muy bien la información, pero todavía no la usa para crear valor: falta conectarla con decisiones y con quienes las toman.", ok:true},
+    {t:"Es un sistema de información gerencial completo, porque tiene datos, software y hardware."},
+    {t:"Es un problema técnico que se resuelve comprando un software más potente."},
+    {t:"Es un caso exitoso, porque digitalizar ya es innovar."}
+  ],
+  why:"Entre los componentes de un SIG están las personas y los procedimientos, no solo la tecnología. Waterfield y Nack insisten en que la información debe llegar a los usuarios en la forma en que la necesitan. Si nadie la usa, no apoya ni la planificación ni el control." },
+
+{ id:"m05", type:"mc", dim:"analisis",
+  prompt:"Correa Martínez advierte que muchos gerentes no tienen formación para leer análisis macroeconómicos y por eso los dejan de lado. ¿Qué implica esto para quien diseña un SIG?",
+  options:[
+    {t:"Que incluir la variable no basta: el sistema debe traducirla a su efecto sobre la organización (costos, demanda, riesgos) y alguien debe poder interpretarla.", ok:true},
+    {t:"Que conviene sacar las variables macroeconómicas del sistema."},
+    {t:"Que la gerencia debería delegar todas sus decisiones en economistas."},
+    {t:"Que basta con enviar cada mes el informe macroeconómico completo a la gerencia."}
+  ],
+  why:"El dato del entorno solo sirve si se conecta con una variable de la organización. Enviar el informe completo repite el problema que señala Correa Martínez: información disponible que nadie convierte en decisión." },
+
+{ id:"m06", type:"mc", dim:"critica",
+  prompt:"En el anexo, las autoras reconocen que los estados financieros (2023) y los reportes de sostenibilidad (2022) no corresponden al mismo periodo, y lo consideran irrelevante. ¿En qué caso dejaría de serlo?",
+  options:[
+    {t:"Si el estudio quisiera relacionar la información disponible con las decisiones y los resultados de un mismo periodo.", ok:true},
+    {t:"En ningún caso: los periodos nunca afectan un análisis documental."},
+    {t:"Solo si las empresas fueran de países distintos."},
+    {t:"Solo si los informes estuvieran en idiomas diferentes."}
+  ],
+  why:"Para verificar si una variable aparece en los informes, el desfase pesa poco. Pero si se quiere mostrar que una decisión se apoyó en cierta información, la secuencia temporal importa. El alcance de una conclusión depende de lo que el diseño permite observar." },
+
+{ id:"m07", type:"mc", dim:"critica",
+  prompt:"Las empresas analizadas reportan con estándares como GRI. ¿Qué explicación alternativa debilita la idea de que esos indicadores reflejan una decisión estratégica de la gerencia?",
+  options:[
+    {t:"Pueden aparecer porque los exige un estándar, un regulador o los inversionistas, no porque la gerencia los use para decidir.", ok:true},
+    {t:"GRI solo aplica a empresas europeas, así que esos reportes no cuentan."},
+    {t:"Los indicadores ambientales no tienen ningún efecto financiero."},
+    {t:"La sustentabilidad no tiene relación con la gobernanza."}
+  ],
+  why:"Cumplir con un estándar de reporte y usar la información para gestionar son cosas distintas. La tercera opción contradice al propio artículo, que cita a SASB sobre el efecto de la sustentabilidad en activos, pasivos, ingresos y costo de capital." },
+
+{ id:"m08", type:"mc", dim:"reflexion",
+  prompt:"Una universidad quiere cruzar el historial de préstamos de la biblioteca con las notas de cada estudiante para predecir la deserción. ¿Qué debería pesar en el diseño, según el planteamiento ético que retoma el artículo?",
+  options:[
+    {t:"Que el posible beneficio no autoriza cualquier uso: hay que definir finalidad, autorización y límites de acceso antes de cruzar los datos.", ok:true},
+    {t:"Que si los datos ya están en la universidad, se pueden usar sin restricciones."},
+    {t:"Que la ética solo importa cuando los datos se venden a terceros."},
+    {t:"Que conviene hacer el cruce sin avisar, para no alterar el comportamiento de los estudiantes."}
+  ],
+  why:"Laudon y Laudon advierten que la capacidad técnica de almacenar y analizar datos personales no puede pasar por encima de la privacidad. En Colombia, además, la Ley 1581 de 2012 exige finalidad informada y autorización para tratar datos personales." },
+
+{ id:"m09", type:"mc", dim:"analisis",
+  prompt:"Gómez Espinosa señala que quienes definen los indicadores deben presentar los gráficos a los usuarios para recibir retroalimentación. ¿Por qué ese paso es clave en un SIG?",
+  options:[
+    {t:"Porque un indicador solo sirve si quien decide lo entiende y confirma que responde a su pregunta. La retroalimentación ajusta el sistema.", ok:true},
+    {t:"Porque los usuarios son quienes aprueban el presupuesto del sistema."},
+    {t:"Porque así se reduce al mínimo la cantidad de datos que hay que capturar."},
+    {t:"Porque los gráficos reemplazan la necesidad de tener datos de calidad."}
+  ],
+  why:"El indicador se valida en el uso. Un tablero técnicamente correcto que no responde a la pregunta de quien decide es ruido. Por eso el diseño de un SIG es iterativo y no termina cuando se publica el primer reporte." },
+
+{ id:"m10", type:"mc", dim:"critica",
+  prompt:"El artículo sostiene que un SIG sería «muy limitado» sin información de sustentabilidad. Si una organización sigue sumando variables a su sistema sin un criterio claro, ¿qué riesgo corre?",
+  options:[
+    {t:"Sobrecarga: más indicadores de los que la gerencia puede leer, varios que nadie usa y un sistema caro de mantener.", ok:true},
+    {t:"Ninguno: más información siempre produce mejores decisiones."},
+    {t:"Que el sistema deje de estar computarizado."},
+    {t:"Que desaparezcan las variables microeconómicas del sistema."}
+  ],
+  why:"El propio texto dice que el propósito de un SIG es alinear los objetivos estratégicos con la información que los soporta. La pertinencia es el filtro. Más variables no equivalen a mejores decisiones." },
+
+{ id:"m11", type:"mc", dim:"transferencia",
+  prompt:"Un archivo reporta dos cifras: los metros lineales que custodia al 31 de diciembre y los metros lineales que recibió en transferencias durante el año. ¿Qué decisión exige mirar las dos juntas?",
+  options:[
+    {t:"Proyectar cuándo se llenará el depósito y si hace falta ampliar espacio o acelerar la eliminación según las TRD.", ok:true},
+    {t:"Medir la satisfacción de los usuarios de la sala de consulta."},
+    {t:"Definir el horario de atención al público."},
+    {t:"Evaluar el desempeño individual de cada archivista."}
+  ],
+  why:"La primera cifra es de stock (cuánto hay en un momento) y la segunda es de flujo (cuánto entra por periodo). La distinción que el artículo toma de Unir sirve aquí: el stock dice dónde estás y el flujo a qué ritmo cambias. Juntas permiten proyectar." },
+
+{ id:"m12", type:"mc", dim:"analisis",
+  prompt:"Una secretaría de educación tiene como objetivo estratégico reducir la deserción escolar, pero su tablero de gestión mide sobre todo la cantidad de trámites atendidos. ¿Qué problema de diseño hay?",
+  options:[
+    {t:"El tablero mide actividad, no avance hacia el objetivo: los indicadores no están alineados con la estrategia.", ok:true},
+    {t:"Le faltan variables macroeconómicas como el PIB."},
+    {t:"Los trámites deberían contarse por semana y no por mes."},
+    {t:"Ninguno: contar trámites siempre refleja el cumplimiento de la estrategia."}
+  ],
+  why:"Martínez y Perozo plantean que el SIG debe adecuar los objetivos estratégicos y la información que los sostiene. Un indicador de actividad puede subir mientras la deserción sigue igual. El diseño parte de la pregunta estratégica, no de lo que es fácil contar." },
+
+{ id:"m13", type:"mc", dim:"transferencia",
+  prompt:"SASB sostiene que la sustentabilidad puede afectar activos, pasivos, ingresos, costos y costo de capital. ¿Cuál de estas situaciones de una entidad pública muestra mejor ese efecto financiero?",
+  options:[
+    {t:"Al pasar al expediente electrónico, la entidad reduce su gasto anual en papel, impresión y bodegaje externo, y libera presupuesto para otros proyectos.", ok:true},
+    {t:"La entidad publica en su web una frase sobre su compromiso con el planeta."},
+    {t:"La entidad cambia el color de sus cajas de archivo a verde."},
+    {t:"La entidad cuenta cuántos funcionarios llegan en bicicleta, sin usar ese dato para nada más."}
+  ],
+  why:"La clave es el vínculo con una cifra financiera: costos que bajan y presupuesto que se libera. Las otras opciones son declaraciones o datos sueltos sin efecto sobre la gestión, que es justo lo que el artículo pide superar." },
+
+/* ---------- Varias respuestas ---------- */
+{ id:"x01", type:"multi", dim:"critica",
+  prompt:"¿Cuáles de estas afirmaciones son limitaciones reales del estudio empírico?",
+  options:[
+    {t:"La muestra se eligió por importancia y solo incluye empresas líderes.", ok:true},
+    {t:"Se analiza lo que las empresas publican, no cómo funcionan sus sistemas internos.", ok:true},
+    {t:"No hay casos de contraste: empresas que no usen esas variables.", ok:true},
+    {t:"El artículo no cita ninguna fuente teórica."},
+    {t:"Las empresas analizadas no cotizan en mercados de valores."}
+  ],
+  why:"Las tres primeras son límites del diseño y las autoras reconocen parte de ellos al decir que la muestra no cubre el universo. Las dos últimas son falsas: hay un marco teórico amplio y las empresas sí acceden al mercado de capitales." },
+
+{ id:"x02", type:"multi", dim:"transferencia",
+  prompt:"Una biblioteca pública quiere un SIG para decidir horarios y servicios. ¿Qué datos cumplen ahí el papel que el artículo da a las variables microeconómicas?",
+  options:[
+    {t:"Demanda de préstamos por franja horaria.", ok:true},
+    {t:"Costo por usuario atendido en cada servicio.", ok:true},
+    {t:"Rotación del personal de sala.", ok:true},
+    {t:"Inflación anual del país."},
+    {t:"Huella de carbono del edificio."}
+  ],
+  why:"Lo microeconómico se refiere a las decisiones de la propia organización sobre oferta, demanda, costos y personal. La inflación pertenece al entorno macro y la huella de carbono a la dimensión de sustentabilidad." },
+
+{ id:"x03", type:"multi", dim:"analisis",
+  prompt:"Una entidad compra la herramienta de inteligencia de negocios mejor calificada del mercado y, aun así, su sistema de información fracasa. ¿Qué pudo fallar, según el marco del artículo?",
+  options:[
+    {t:"No había personas capacitadas para interpretar y mantener el sistema.", ok:true},
+    {t:"Faltaban procedimientos que dijeran quién reporta qué y cuándo.", ok:true},
+    {t:"Los datos de origen eran incompletos o poco pertinentes para las decisiones.", ok:true},
+    {t:"El precio de la herramienta, que por sí solo debía garantizar el resultado."},
+    {t:"La ausencia de variables macroeconómicas, que siempre es la causa principal."}
+  ],
+  why:"Porras describe el SIG con cinco componentes: datos, personas, procedimientos, software y hardware. Comprar el mejor software resuelve uno solo. Los fracasos suelen estar en los componentes que no se compran." },
+
+{ id:"x04", type:"multi", dim:"reflexion",
+  prompt:"¿En cuáles de estas situaciones la organización ya usa la información para crear valor, y no solo la administra?",
+  options:[
+    {t:"Un archivo nota que las consultas de historias laborales se disparan antes de cada cambio pensional y refuerza al personal en esas fechas.", ok:true},
+    {t:"Una biblioteca cancela una suscripción poco usada y pasa ese dinero a una colección que pidieron los programas nuevos.", ok:true},
+    {t:"Una universidad ajusta su oferta de cursos virtuales tras cruzar la demanda con la capacidad de sus docentes.", ok:true},
+    {t:"Una oficina guarda todos sus correos en una carpeta compartida ordenada por fecha."},
+    {t:"Una entidad publica cada mes un tablero con 80 indicadores que nadie revisa."}
+  ],
+  why:"En las tres primeras hay una decisión que cambia la asignación de recursos a partir de la información. Ordenar correos es administrar, y un tablero que nadie lee no apoya ninguna decisión." },
+
+/* ---------- Encuentra la falla ---------- */
+{ id:"f01", type:"spot", dim:"critica",
+  prompt:"Toca el fragmento donde se rompe el razonamiento.",
+  ctx:"Así lo escribió el jefe de planeación de una gobernación:",
+  parts:[
+    {t:"Revisamos los informes de gestión de las cinco gobernaciones mejor calificadas en transparencia."},
+    {t:"Todas incluyen indicadores de satisfacción ciudadana."},
+    {t:"Por lo tanto, medir la satisfacción ciudadana es lo que las llevó a esos primeros lugares.", ok:true},
+    {t:"Vamos a sumar ese indicador a nuestro tablero."}
+  ],
+  why:"Que todas las mejores lo hagan no prueba que eso cause su posición: no se miraron las gobernaciones peor calificadas, que quizás también lo miden. Es la misma tensión metodológica del artículo." },
+
+{ id:"f02", type:"spot", dim:"critica",
+  prompt:"Toca el fragmento que no se sostiene.",
+  ctx:"Informe de un comité directivo:",
+  parts:[
+    {t:"Nuestro sistema ya integra 120 indicadores de todas las áreas."},
+    {t:"Nunca habíamos tenido tantos datos disponibles,"},
+    {t:"así que las decisiones del comité son necesariamente mejores que antes.", ok:true},
+    {t:"El próximo paso es agregar indicadores ambientales."}
+  ],
+  why:"La cantidad de datos no garantiza la calidad de la decisión. El artículo vincula la eficiencia del SIG con la pertinencia de los indicadores y con la capacidad de quienes los interpretan." },
+
+{ id:"f03", type:"spot", dim:"reflexion",
+  prompt:"Toca el fragmento que plantea un problema ético.",
+  ctx:"Propuesta de la dirección de una biblioteca:",
+  parts:[
+    {t:"La biblioteca registra qué libros presta cada estudiante."},
+    {t:"Esos datos sirven para planear compras y detectar temas con alta demanda."},
+    {t:"Como los datos son de la institución, enviaremos a cada facultad el listado con nombre y documento de quien pidió cada libro.", ok:true},
+    {t:"Así cada facultad sabrá qué temas interesan más."}
+  ],
+  why:"Para saber qué temas interesan basta con datos agregados. Identificar a cada lector no añade nada a ese propósito y expone su privacidad, que es justo la advertencia que el artículo retoma de Laudon y Laudon." },
+
+{ id:"f04", type:"spot", dim:"analisis",
+  prompt:"Toca el fragmento con el error de lógica.",
+  ctx:"Comentario en una reunión de una entidad descentralizada:",
+  parts:[
+    {t:"La inflación subió y el dólar está más caro."},
+    {t:"Son variables macroeconómicas,"},
+    {t:"y como la entidad no las controla, no tiene sentido incluirlas en su sistema de información.", ok:true},
+    {t:"Mejor nos concentramos en los indicadores internos."}
+  ],
+  why:"No controlar una variable es distinto a no tenerla en cuenta. El argumento del artículo es justamente ese: el entorno macro se monitorea para anticipar efectos sobre costos, demanda y riesgos." },
+
+{ id:"f05", type:"spot", dim:"critica",
+  prompt:"Toca el fragmento donde la conclusión va más allá de la evidencia.",
+  ctx:"Resumen escrito por un estudiante:",
+  parts:[
+    {t:"Las autoras analizaron seis empresas grandes de la región."},
+    {t:"Todas reportan variables macro, micro y de sustentabilidad."},
+    {t:"Esto demuestra que cualquier organización, sin importar su tamaño o sector, obtiene ventajas competitivas al incluirlas.", ok:true},
+    {t:"Vale la pena revisar el diseño de nuestros propios sistemas a la luz de esto."}
+  ],
+  why:"Seis empresas líderes y elegidas por su importancia no permiten generalizar a cualquier organización. El último fragmento sí es razonable: usa el estudio como punto de partida, no como prueba." },
+
+/* ---------- Clasifica ---------- */
+{ id:"c01", type:"classify", dim:"transferencia", take:6,
+  prompt:"El archivo general de una universidad está diseñando su SIG. Ubica cada dato en la familia de variables que le corresponde.",
+  buckets:[
+    {l:"Macroeconómica", d:"Entorno del país"},
+    {l:"Microeconómica", d:"Recursos, oferta y demanda propios"},
+    {l:"Sustentabilidad", d:"Ambiental, social y gobernanza"}
+  ],
+  chips:[
+    {t:"Variación del IPC que ajusta el contrato de custodia externa", b:0},
+    {t:"Tasa de cambio para comprar un escáner importado", b:0},
+    {t:"Recorte del presupuesto general de la nación para el sector", b:0},
+    {t:"Solicitudes de consulta atendidas por mes", b:1},
+    {t:"Costo por expediente digitalizado", b:1},
+    {t:"Rotación del personal técnico", b:1},
+    {t:"Consumo de energía de los equipos de control ambiental del depósito", b:2},
+    {t:"Documentos disponibles en formatos accesibles para personas con discapacidad visual", b:2},
+    {t:"Cumplimiento de la publicación exigida por la Ley de Transparencia", b:2}
+  ],
+  why:"Lo macro viene del entorno y la entidad no lo controla. Lo micro son decisiones sobre sus propios recursos y servicios. La sustentabilidad abarca lo ambiental, lo social (accesibilidad) y la gobernanza (transparencia)." },
+
+{ id:"c02", type:"classify", dim:"analisis", take:6,
+  prompt:"Clasifica cada medición según la distinción entre variables de stock y de flujo.",
+  buckets:[
+    {l:"Stock", d:"Medición en un momento dado"},
+    {l:"Flujo", d:"Medición por unidad de tiempo"}
+  ],
+  chips:[
+    {t:"Deuda pública al 31 de diciembre", b:0},
+    {t:"Metros lineales custodiados al cierre del año", b:0},
+    {t:"Usuarios inscritos en la biblioteca hoy", b:0},
+    {t:"Saldo de presupuesto disponible a la fecha", b:0},
+    {t:"Exportaciones del trimestre", b:1},
+    {t:"Expedientes transferidos durante el año", b:1},
+    {t:"Préstamos realizados en el semestre", b:1},
+    {t:"Salarios pagados en el mes", b:1}
+  ],
+  why:"El stock es una foto: cuánto hay en una fecha. El flujo es una película: cuánto entra o sale en un periodo. La pista está en la expresión de tiempo (al cierre, hoy, a la fecha frente a durante, en el trimestre, en el mes)." },
+
+{ id:"c03", type:"classify", dim:"analisis", take:6,
+  prompt:"Diagnóstico de un SIG que no funciona. Ubica cada síntoma en el componente donde está la falla.",
+  buckets:[
+    {l:"Datos", d:""},
+    {l:"Personas", d:""},
+    {l:"Procedimientos", d:""},
+    {l:"Tecnología", d:"Software y hardware"}
+  ],
+  chips:[
+    {t:"Las cifras de usuarios están duplicadas y desactualizadas", b:0},
+    {t:"Cada sede cuenta los préstamos con un criterio distinto", b:0},
+    {t:"Los informes llegan, pero nadie del comité sabe leer un indicador de rotación", b:1},
+    {t:"El único funcionario que entendía el tablero se retiró", b:1},
+    {t:"Cada dependencia reporta en fechas distintas y con formatos propios", b:2},
+    {t:"No hay una regla sobre quién puede ver los datos personales", b:2},
+    {t:"La herramienta no permite cruzar préstamos con matrícula", b:3},
+    {t:"El servidor se cae en cada cierre de mes", b:3}
+  ],
+  why:"Casi nunca falla un solo componente, pero identificar dónde está cada síntoma orienta la solución. Un criterio de conteo distinto es un problema del dato; una fecha de reporte sin regla es un problema de procedimiento." },
+
+{ id:"c04", type:"classify", dim:"transferencia", take:6,
+  prompt:"Un SIG apoya la planificación, el control y la operación. Ubica cada uso en la función que cumple.",
+  buckets:[
+    {l:"Planificación", d:"Qué haremos"},
+    {l:"Control", d:"Cómo vamos frente a lo previsto"},
+    {l:"Operación", d:"Qué hacemos hoy"}
+  ],
+  chips:[
+    {t:"Proyectar el presupuesto de suscripciones del próximo año", b:0},
+    {t:"Definir la meta de digitalización a tres años", b:0},
+    {t:"Comparar el tiempo real de respuesta a PQRS con la meta", b:1},
+    {t:"Detectar que una sede gasta 30 % más energía que las demás", b:1},
+    {t:"Asignar los turnos del día según las reservas de sala", b:2},
+    {t:"Despachar las solicitudes de préstamo interbibliotecario", b:2}
+  ],
+  why:"Planificar mira hacia adelante, controlar compara lo ocurrido con lo previsto y operar resuelve el día a día. Un mismo dato puede servir a las tres funciones; lo que cambia es la pregunta que responde." },
+
+/* ---------- Ordena ---------- */
+{ id:"o01", type:"order", dim:"analisis",
+  prompt:"Ordena las etapas para diseñar un SIG que responda a la estrategia, de la primera a la última.",
+  steps:[
+    "Definir los objetivos estratégicos que el sistema debe apoyar",
+    "Identificar qué decisiones dependen de esos objetivos y qué información necesitan",
+    "Seleccionar los indicadores pertinentes, internos y del entorno",
+    "Establecer fuentes, responsables y periodicidad de captura",
+    "Procesar la información y presentarla a quienes deciden",
+    "Recoger la retroalimentación de los usuarios y ajustar los indicadores"
+  ],
+  why:"El diseño parte de la estrategia y no del software ni de los datos que ya existen. El cierre con retroalimentación retoma a Gómez Espinosa: los indicadores se validan con quienes los usan." },
+
+{ id:"o02", type:"order", dim:"analisis",
+  prompt:"Ordena el recorrido de la información, desde el hecho hasta la acción y de vuelta al sistema.",
+  steps:[
+    "Ocurre un hecho en la operación (un préstamo, una transferencia documental)",
+    "El hecho se registra como dato en bruto",
+    "El dato se procesa y se convierte en información utilizable",
+    "La información llega a los usuarios en la forma en que la necesitan",
+    "La gerencia decide y actúa",
+    "Los efectos de la decisión generan nuevos datos que vuelven al sistema"
+  ],
+  why:"Es la secuencia de Waterfield y Nack (captar, procesar, difundir) completada con la decisión y el ciclo de retorno. Sin el último paso no hay forma de saber si la decisión funcionó." },
+
+{ id:"o03", type:"order", dim:"transferencia",
+  prompt:"Ordena estas decisiones de una biblioteca universitaria según su horizonte, del más corto al más largo.",
+  steps:[
+    "Reasignar personal mañana porque hay semana de parciales",
+    "Ajustar el horario de la sala para el próximo mes",
+    "Decidir qué bases de datos renovar el próximo año según uso y tipo de cambio",
+    "Decidir si construir un nuevo depósito o apostar por la preservación digital en cinco años"
+  ],
+  why:"El artículo habla de objetivos de corto, mediano y largo plazo. Cuanto más largo el horizonte, más pesan las variables del entorno (tipo de cambio, presupuesto público) frente a los datos operativos del día." },
+
+{ id:"o04", type:"order", dim:"reflexion",
+  prompt:"Ordena estos niveles, desde solo administrar la información hasta crear valor con ella.",
+  steps:[
+    "Guardar y conservar los datos",
+    "Organizarlos para que se puedan recuperar",
+    "Convertirlos en indicadores que respondan preguntas concretas",
+    "Usarlos para decidir y asignar recursos",
+    "Medir el efecto de esas decisiones y aprender de él"
+  ],
+  why:"Esta escalera responde a la pregunta guía de la lectura. Los dos primeros niveles son administración. El valor aparece cuando la información cambia una decisión y se cierra el ciclo midiendo su efecto." },
+
+/* ---------- Relaciona ---------- */
+{ id:"r01", type:"match", dim:"critica",
+  prompt:"Para cada afirmación, elige la evidencia que haría falta para sostenerla con firmeza.",
+  hl:"Afirmación", hr:"Evidencia necesaria",
+  pairs:[
+    {l:"La gerencia usa estas variables para decidir", r:"Entrevistas, actas de comités o tableros internos"},
+    {l:"Incluirlas genera ventajas competitivas", r:"Comparación con organizaciones que no las incluyen"},
+    {l:"La muestra representa a la región", r:"Selección de varios países, tamaños y sectores con un criterio explícito"},
+    {l:"La sustentabilidad tiene efecto financiero", r:"Datos de costos, ingresos o costo de capital asociados a esas acciones"}
+  ],
+  why:"Cada tipo de afirmación pide un tipo de evidencia distinto. Leer críticamente es preguntarse qué tendría que haberse observado para poder decir lo que se dice." },
+
+{ id:"r02", type:"match", dim:"transferencia",
+  prompt:"Relaciona cada situación de una entidad pública con la dimensión del SIG a la que pertenece.",
+  hl:"Situación", hr:"Dimensión",
+  pairs:[
+    {l:"El recorte del presupuesto nacional reduce las transferencias a la entidad", r:"Variable macroeconómica"},
+    {l:"Las solicitudes de copias certificadas crecen 40 % en un semestre", r:"Variable microeconómica"},
+    {l:"La entidad mide cuánto papel deja de imprimir con el expediente electrónico", r:"Variable de sustentabilidad"},
+    {l:"Un funcionario pide acceso a historias clínicas que no necesita para su trabajo", r:"Dimensión ética y de privacidad"}
+  ],
+  why:"Un mismo sistema debe leer el entorno, la operación propia, el impacto ambiental y social, y además fijar límites éticos sobre quién accede a qué." },
+
+{ id:"r03", type:"match", dim:"analisis",
+  prompt:"Relaciona cada situación con el aporte del SIG que mejor la describe.",
+  hl:"Situación", hr:"Aporte",
+  pairs:[
+    {l:"El informe mensual que tomaba tres días ahora se genera solo", r:"Eficiencia operativa"},
+    {l:"Ante el alza del dólar, la biblioteca renueva a tiempo con un precio fijado", r:"Respuesta rápida a cambios del entorno"},
+    {l:"El archivo redistribuye al personal según la demanda de consultas", r:"Gestión de recursos"},
+    {l:"La rectoría compara tres escenarios antes de aprobar el presupuesto", r:"Soporte a la toma de decisiones"}
+  ],
+  why:"Son los aportes que Porras atribuye a los SIG. En la práctica se mezclan, pero distinguirlos ayuda a justificar por qué vale la pena invertir en el sistema." },
+
+/* ---------- Completa ---------- */
+{ id:"z01", type:"cloze", dim:"reflexion",
+  prompt:"Completa el párrafo con las palabras que mantienen el sentido del argumento.",
+  text:"Un sistema de información gerencial vale por su capacidad de {} decisiones concretas, más que por la cantidad de {} que guarda. Por eso su diseño parte de los {} de la organización. Las variables del {}, como la inflación o el tipo de cambio, entran al sistema cuando afectan costos o demanda. Y nada funciona si las {} que deciden no saben interpretar lo que el sistema muestra.",
+  answers:["apoyar","datos","objetivos estratégicos","entorno","personas"],
+  distractors:["reemplazar","proveedores","servidores"],
+  why:"El argumento central: la información vale por su uso, el diseño se subordina a la estrategia, el entorno entra cuando afecta a la organización y las personas son un componente del sistema." },
+
+{ id:"z02", type:"cloze", dim:"critica",
+  prompt:"Completa el párrafo crítico sobre el método del estudio.",
+  text:"El estudio revisa lo que seis empresas {} en sus informes. Eso prueba que las variables se reportan, pero no demuestra que la gerencia las {} para decidir. Como todas las empresas son {}, tampoco hay con quién comparar. Por eso, con prudencia, las autoras escriben que se {} el aporte de esa información.",
+  answers:["publican","use","líderes","presume"],
+  distractors:["ocultan","pequeñas","demuestra"],
+  why:"El texto mismo marca el límite con el verbo «presumir». Lo que se observa es la divulgación, y una muestra sin variación no permite comparar." },
+
+{ id:"z03", type:"cloze", dim:"transferencia",
+  prompt:"Completa el párrafo aplicando las categorías del artículo a un archivo.",
+  text:"Los metros lineales custodiados al cierre del año son una variable de {}, y los expedientes transferidos durante el año son una variable de {}. Si el contrato de custodia externa se ajusta con el IPC, la {} entra en las decisiones del archivo aunque sea una variable {}. Medir el papel que se deja de imprimir con el expediente electrónico es un indicador de {}.",
+  answers:["stock","flujo","inflación","macroeconómica","sustentabilidad"],
+  distractors:["microeconómica","liquidez","demanda"],
+  why:"Las categorías del artículo funcionan fuera de la empresa: un archivo también tiene stock y flujo, recibe el efecto de la inflación y puede medir su impacto ambiental." }
+];
+
+/* ===================== Portada: datos ===================== */
+var GROUPS = {
+  macro:   { l: "Macroeconómicas",  c: "var(--blue)",     s: "var(--blue-s)" },
+  micro:   { l: "Microeconómicas",  c: "var(--teal)",     s: "var(--teal-s)" },
+  sust:    { l: "Sustentabilidad",  c: "var(--amber-d)",  s: "var(--amber-s)" },
+  sistema: { l: "El sistema",       c: "var(--navy)",     s: "var(--navy-s)" },
+  metodo:  { l: "Método y ética",   c: "var(--orange-d)", s: "var(--orange-s)" }
+};
+var TAGS = [
+  { t:"Inflación", g:"macro", w:3, h:"Variable del entorno. La entidad no la controla, pero puede ajustarle contratos, costos y presupuestos. La pregunta es qué decisión propia mueve." },
+  { t:"Tipo de cambio", g:"macro", w:3, h:"Pesa en todo lo que se paga en dólares: suscripciones, licencias, equipos importados. Piensa en cuándo se aprueba el presupuesto y cuándo se paga." },
+  { t:"PIB", g:"macro", w:2, h:"Mide la actividad de la economía. Cuando cambia, suelen moverse la demanda y los ingresos públicos." },
+  { t:"Tasa de interés", g:"macro", w:1, h:"El costo del dinero. Afecta créditos, inversiones y la decisión de adelantar o aplazar un gasto." },
+  { t:"Prima de riesgo", g:"macro", w:1, h:"Lo que exigen de más los inversionistas por poner dinero en un país. Un termómetro de confianza." },
+  { t:"Desempleo", g:"macro", w:1, h:"Es macro, sí. Pero que una variable sea del entorno no la vuelve pertinente para cualquier decisión." },
+  { t:"Oferta y demanda", g:"micro", w:3, h:"Lo que la organización ofrece frente a lo que le piden. En una biblioteca: préstamos, consultas, horarios." },
+  { t:"Costos", g:"micro", w:2, h:"Costo por usuario, por expediente, por servicio. Sin costos no se pueden comparar alternativas." },
+  { t:"Rotación de personal", g:"micro", w:2, h:"Muchos lo olvidan. Si se va la única persona que entiende el tablero, el sistema se va con ella." },
+  { t:"Precios", g:"micro", w:1, h:"Qué cobrar o cuánto pagar. En lo público también cuentan tarifas y contratos." },
+  { t:"Nuevos usuarios", g:"micro", w:1, h:"En una entidad pública, el equivalente a los nuevos clientes de una empresa." },
+  { t:"Sustentabilidad", g:"sust", w:3, h:"Tiene tres caras: ambiental, social y de gobernanza. La accesibilidad y la transparencia también entran aquí." },
+  { t:"Huella de carbono", g:"sust", w:2, h:"Indicador ambiental. Pregúntate si alguien decide algo con él o si solo se publica." },
+  { t:"GRI", g:"sust", w:2, h:"Estándar para reportar sostenibilidad. Reportar con un estándar y usar la información para decidir son cosas distintas." },
+  { t:"SASB", g:"sust", w:2, h:"Plantea que la sustentabilidad toca activos, pasivos, ingresos, costos y costo de capital. Busca el efecto en las cifras." },
+  { t:"ODS", g:"sust", w:1, h:"Objetivos de Desarrollo Sostenible. El artículo los conecta con nuevas oportunidades de negocio." },
+  { t:"Transparencia", g:"sust", w:1, h:"Parte de la gobernanza. En Colombia, la Ley 1712 de 2014 obliga a publicar la información pública." },
+  { t:"Sistema de información gerencial", g:"sistema", w:3, h:"Datos, personas, procedimientos, software y hardware. Si uno falla, el sistema cojea aunque los demás sean excelentes." },
+  { t:"Indicadores", g:"sistema", w:3, h:"Un indicador vale si responde la pregunta de quien decide. Contar actividad no es lo mismo que medir avance." },
+  { t:"Objetivos estratégicos", g:"sistema", w:2, h:"El punto de partida del diseño. Primero la pregunta estratégica; después los datos y la herramienta." },
+  { t:"Stock y flujo", g:"sistema", w:2, h:"Stock: cuánto hay en una fecha. Flujo: cuánto entra o sale en un periodo. Las palabras de tiempo delatan cuál es cuál." },
+  { t:"Retroalimentación", g:"sistema", w:2, h:"Los indicadores se validan mostrándolos a quien los usa. El diseño no termina con el primer tablero." },
+  { t:"Planificación · control · operación", g:"sistema", w:1, h:"Las tres funciones que apoya un SIG: mirar adelante, comparar con lo previsto y resolver el día." },
+  { t:"Divulgación", g:"metodo", w:3, h:"Lo que una empresa publica en sus informes. ¿Alcanza para saber cómo decide su gerencia por dentro?" },
+  { t:"Muestra", g:"metodo", w:2, h:"Seis empresas líderes elegidas por su importancia. Pregúntate qué se puede generalizar con eso y qué no." },
+  { t:"«Se presume»", g:"metodo", w:2, h:"Fíjate en los verbos de la conclusión. Dicen mucho de qué tan fuerte es la evidencia que la respalda." },
+  { t:"Privacidad", g:"metodo", w:2, h:"Laudon y Laudon: poder cruzar datos personales no significa que se deba. Primero la finalidad y la autorización." },
+  { t:"Causalidad", g:"metodo", w:1, h:"Que todas las ganadoras hagan algo no prueba que eso las haga ganar. Falta mirar a las que no ganaron." }
+];
+var MECH = [
+  { k:"mc", d:"Un caso de archivo, biblioteca o entidad pública y cuatro salidas posibles.", p:"Busca qué decisión concreta mueve cada dato. La opción más ambiciosa no siempre es la mejor.", feat:true },
+  { k:"spot", d:"Un razonamiento corto con un salto lógico escondido en uno de sus fragmentos.", p:"Desconfía de «por lo tanto», «necesariamente» y «cualquier organización»." },
+  { k:"multi", d:"Más de una opción es correcta. Las que marques mal te restan.", p:"Marca solo lo que puedas defender en voz alta." },
+  { k:"classify", d:"Tarjetas que hay que ubicar en la familia o la función que les corresponde.", p:"Pregúntate de dónde viene el dato y quién lo controla." },
+  { k:"order", d:"Pasos revueltos de un proceso. El puntaje premia el orden relativo.", p:"Piensa qué tiene que existir antes para que el paso siguiente tenga sentido." },
+  { k:"match", d:"Dos columnas para emparejar elementos uno a uno.", p:"Lee toda la columna derecha antes de unir la primera pareja." },
+  { k:"cloze", d:"Un párrafo con espacios en blanco y palabras de sobra.", p:"Las palabras que sobran suenan bien, pero cambian el sentido del argumento." }
+];
+var MARQ1 = ["Sistema de información gerencial","Toma de decisiones","Indicadores","Planificación","Control","Operación","Ventaja competitiva","Innovación","Retroalimentación"];
+
+/* ===================== Utilidades ===================== */
+var byId = {}; BANK.forEach(function(b){ byId[b.id] = b; });
+function rnd(n){ try{ var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; }catch(e){ return Math.floor(Math.random()*n); } }
+function shuffle(arr){ var a = arr.slice(); for(var i=a.length-1;i>0;i--){ var j=rnd(i+1); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function range(n){ var a=[]; for(var i=0;i<n;i++) a.push(i); return a; }
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function f1(n){ return (Math.round(n*10)/10).toFixed(1).replace(".", ","); }
+function fp(n){ var r = Math.round(n*10)/10; return (r % 1 === 0) ? String(r) : f1(r); }
+function pad(n){ return n < 10 ? "0"+n : String(n); }
+function cut(s, n){ return s.length > n ? s.slice(0, n).replace(/\s+\S*$/, "") + "…" : s; }
+function label(b){ return b.ctx ? b.ctx.replace(/:$/, "") + ". " + b.prompt : b.prompt; }
+function words(b){ return b.answers.concat(b.distractors); }
+function maxFor(it){ return CONFIG.puntos * (it.late || it.status === "skipped" ? CONFIG.factorTardio : 1); }
+function dimStyle(d){ return "--c:"+DIMC[d][0]+";--cs:"+DIMC[d][1]; }
+var LETTERS = "ABCDEFGH";
+function makeCode(){ var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", s=""; for(var i=0;i<6;i++) s+=c[rnd(c.length)]; return s; }
+function total(){ var n = 0; Object.keys(CONFIG.mezcla).forEach(function(k){ n += CONFIG.mezcla[k]; }); return n; }
+var reduced = false; try{ reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+
+var landing = document.getElementById("landing");
+var appView = document.getElementById("appView");
+var app = document.getElementById("app");
+var modal = document.getElementById("modal");
+var S = null;
+
+var store = {
+  load: function(){ try{ var r = localStorage.getItem(CONFIG.storageKey); return r ? JSON.parse(r) : null; }catch(e){ return null; } },
+  save: function(){ try{ localStorage.setItem(CONFIG.storageKey, JSON.stringify(S)); }catch(e){} },
+  clear: function(){ try{ localStorage.removeItem(CONFIG.storageKey); }catch(e){} }
+};
+
+/* ===================== Portada ===================== */
+function buildLanding(){
+  // Palabras deslizantes
+  var colors = ["var(--blue)","var(--teal)","var(--amber)","var(--orange)"];
+  var r1 = MARQ1.map(function(w, i){
+    var cls = i % 3 === 1 ? "mw o" : (i % 3 === 2 ? "mw i" : "mw");
+    return '<span class="'+cls+'">'+esc(w)+'</span><span class="sq" style="background:'+colors[i % 4]+'"></span>';
+  }).join("");
+  document.getElementById("mq1").innerHTML = r1 + r1;
+  var r2 = shuffle(TAGS).map(function(t){
+    return '<span class="mtag" style="color:'+GROUPS[t.g].c+';background:'+GROUPS[t.g].s+'">'+esc(t.t)+'</span>';
+  }).join("");
+  document.getElementById("mq2").innerHTML = r2 + r2;
+
+  // Filtros y nube
+  var flt = '<button class="flt on" data-filter="all">Todas</button>' + Object.keys(GROUPS).map(function(g){
+    return '<button class="flt" data-filter="'+g+'"><i style="background:'+GROUPS[g].c+'"></i>'+GROUPS[g].l+'</button>';
+  }).join("");
+  document.getElementById("filters").innerHTML = flt;
+  var order = shuffle(range(TAGS.length));
+  document.getElementById("cloud").innerHTML = order.map(function(i){
+    var t = TAGS[i];
+    return '<button class="tag w'+t.w+'" data-tag="'+i+'" data-g="'+t.g+'" style="--c:'+GROUPS[t.g].c+';--s:'+GROUPS[t.g].s+'">'+esc(t.t)+'</button>';
+  }).join("");
+  hint(null);
+
+  // Mecánicas
+  document.getElementById("mech").innerHTML = MECH.map(function(m){
+    var d = TYPEC[m.k];
+    return '<div class="mcard'+(m.feat ? ' feat' : '')+'" style="'+dimStyle(d)+'"><span class="ic">'+ICON[m.k]+'</span><span class="cnt">×'+CONFIG.mezcla[m.k]+' por intento</span><h4>'+TYPES[m.k]+'</h4><p>'+m.d+'</p><div class="pista"><b>Pista</b>'+m.p+'</div></div>';
+  }).join("") + '<div class="mcard" style="--c:var(--ink);--s:var(--soft);justify-content:center;background:var(--soft);border-style:dashed"><h4 style="margin:0">'+total()+' retos en total</h4><p>Sacados al azar de un banco de '+BANK.length+'. A cada estudiante le toca una combinación distinta.</p><button class="btn small" data-start style="align-self:flex-start;margin-top:8px"><span class="ctaLabel">Empezar la prueba</span><span class="arr">→</span></button></div>';
+
+  // Dimensiones
+  document.getElementById("dimgrid").innerHTML = Object.keys(DIMS).map(function(k){
+    return '<div class="dg" style="--c:'+DIMC[k][0]+';--s:'+DIMC[k][1]+'"><span class="ic">'+DIMS[k].slice(0,2).toUpperCase()+'</span><div><b>'+DIMS[k]+'</b><span>'+DIMD[k]+'</span></div></div>';
+  }).join("");
+
+  if(reduced){ var dots = document.querySelector(".hero-fig .dots"); if(dots) dots.remove(); }
+  setupReveal();
+}
+function hint(i){
+  var el = document.getElementById("hintcard");
+  if(i === null){
+    el.style.removeProperty("--c");
+    el.innerHTML = '<div class="bar"></div><div class="in"><small>Pista</small><div class="hint-empty">'+ICON.tap+'Toca cualquier palabra de la nube. Aquí aparece una pista sobre cómo se usa en los retos.</div></div>';
+    return;
+  }
+  var t = TAGS[i], g = GROUPS[t.g];
+  el.style.setProperty("--c", g.c);
+  el.innerHTML = '<div class="bar"></div><div class="in"><small>Pista</small><h3>'+esc(t.t)+'</h3><p>'+esc(t.h)+'</p><span class="gpill" style="--c:'+g.c+';--s:'+g.s+'">'+g.l+'</span></div>';
+}
+function setupReveal(){
+  var els = document.querySelectorAll(".reveal");
+  if(reduced || !("IntersectionObserver" in window)){ els.forEach(function(e){ e.classList.add("in"); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add("in"); countUp(en.target); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function(e){ io.observe(e); });
+}
+function countUp(root){
+  root.querySelectorAll("[data-count]").forEach(function(el){
+    var end = +el.dataset.count, t0 = null;
+    function step(ts){ if(!t0) t0 = ts; var p = Math.min(1, (ts - t0) / 900); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))); if(p < 1) requestAnimationFrame(step); }
+    el.textContent = "0"; requestAnimationFrame(step);
+  });
+}
+function updateCtas(){
+  var lbl = "Empezar la prueba", bar = document.getElementById("resumeBar");
+  if(S && S.phase === "result"){ lbl = "Ver mi resultado"; }
+  else if(S){ lbl = "Continuar mi intento"; }
+  document.querySelectorAll(".ctaLabel").forEach(function(e){ e.textContent = lbl; });
+  document.getElementById("topCta").textContent = lbl;
+  if(S && S.phase !== "result"){
+    var done = S.items.filter(function(it){ return it.status === "done"; }).length;
+    document.getElementById("resumeTxt").textContent = "Tienes un intento abierto: "+done+" de "+S.items.length+" retos respondidos.";
+    bar.hidden = false;
+  } else bar.hidden = true;
+}
+function showLanding(){
+  landing.hidden = false; appView.hidden = true;
+  document.getElementById("topCta").hidden = false;
+  document.getElementById("topMeta").textContent = "";
+  updateCtas(); window.scrollTo(0, 0);
+}
+function showApp(){
+  landing.hidden = true; appView.hidden = false;
+  document.getElementById("topCta").hidden = true;
+  render(); window.scrollTo(0, 0);
+}
+function openStart(){
+  modal.innerHTML = '<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="mt">'+
+    '<p class="eyebrow">Antes de empezar</p><h4 id="mt">¿Quién presenta la prueba?</h4>'+
+    '<p>Tu nombre aparece en el comprobante final. Son '+total()+' retos y puedes saltar los que quieras.</p>'+
+    '<label for="nm">Nombre completo</label><input id="nm" type="text" autocomplete="name" maxlength="80">'+
+    '<label for="cd">Código (opcional)</label><input id="cd" type="text" maxlength="20">'+
+    '<div class="row"><button class="btn ghost" id="mNo">Cancelar</button><button class="btn" id="mOk" disabled>Empezar <span class="arr">→</span></button></div></div>';
+  modal.hidden = false;
+  var nm = document.getElementById("nm"), ok = document.getElementById("mOk");
+  function close(){ modal.hidden = true; modal.innerHTML = ""; document.removeEventListener("keydown", onKey); }
+  function go(){ if(nm.value.trim().length < 3) return; var n = nm.value.trim(), c = document.getElementById("cd").value.trim(); close(); startAttempt(n, c); }
+  function onKey(e){ if(e.key === "Escape") close(); if(e.key === "Enter") go(); }
+  nm.addEventListener("input", function(){ ok.disabled = nm.value.trim().length < 3; });
+  document.getElementById("mNo").onclick = close;
+  ok.onclick = go;
+  modal.onclick = function(e){ if(e.target === modal) close(); };
+  document.addEventListener("keydown", onKey);
+  setTimeout(function(){ nm.focus(); }, 30);
+}
+
+document.addEventListener("click", function(e){
+  var t = e.target.closest("[data-start],[data-home],[data-filter],[data-tag]");
+  if(!t) return;
+  if(t.hasAttribute("data-start")){ if(S) showApp(); else openStart(); return; }
+  if(t.hasAttribute("data-home")){ showLanding(); return; }
+  if(t.dataset.filter){
+    document.querySelectorAll(".flt").forEach(function(f){ f.classList.toggle("on", f === t); });
+    var g = t.dataset.filter;
+    document.querySelectorAll(".tag").forEach(function(x){ x.classList.toggle("faded", g !== "all" && x.dataset.g !== g); });
+    return;
+  }
+  if(t.dataset.tag !== undefined){
+    document.querySelectorAll(".tag").forEach(function(x){ x.classList.toggle("on", x === t); });
+    hint(+t.dataset.tag);
+  }
+});
+
+/* ===================== Intento ===================== */
+function buildView(b){
+  switch(b.type){
+    case "mc": case "multi": return { opts: shuffle(range(b.options.length)) };
+    case "spot": return {};
+    case "classify": return { chips: shuffle(range(b.chips.length)).slice(0, b.take || b.chips.length) };
+    case "order": var p; do { p = shuffle(range(b.steps.length)); } while(p.every(function(v,i){ return v===i; })); return { start: p };
+    case "match": return { left: shuffle(range(b.pairs.length)), right: shuffle(range(b.pairs.length)) };
+    case "cloze": return { bank: shuffle(range(words(b).length)) };
+  }
+}
+function initResp(b, v){
+  switch(b.type){
+    case "mc": case "spot": return { sel: null };
+    case "multi": return { sel: [] };
+    case "classify": return { place: {}, sel: null };
+    case "order": return { seq: v.start.slice(), moved: false };
+    case "match": return { pairs: {}, sel: null };
+    case "cloze": return { fill: b.answers.map(function(){ return null; }), act: 0 };
+  }
+}
+function startAttempt(nombre, codigo){
+  var picked = [];
+  Object.keys(CONFIG.mezcla).forEach(function(type){
+    var pool = BANK.filter(function(b){ return b.type === type; });
+    picked = picked.concat(shuffle(pool).slice(0, CONFIG.mezcla[type]));
+  });
+  var items = shuffle(picked).map(function(b){
+    var v = buildView(b);
+    return { id: b.id, v: v, r: initResp(b, v), status: "new", late: false, checked: false, frac: 0, pts: 0 };
+  });
+  S = { v: 1, code: makeCode(), nombre: nombre, codigo: codigo, started: new Date().toISOString(), finished: null, phase: "quiz", idx: 0, from: "pass", items: items };
+  store.save(); showApp();
+}
+function validState(s){ return s && s.items && s.items.length && s.items.every(function(it){ return byId[it.id]; }); }
+
+/* ===================== Calificación ===================== */
+function isReady(it){
+  var b = byId[it.id], r = it.r;
+  switch(b.type){
+    case "mc": case "spot": return r.sel !== null;
+    case "multi": return r.sel.length > 0;
+    case "classify": return Object.keys(r.place).length === it.v.chips.length;
+    case "order": return true;
+    case "match": return Object.keys(r.pairs).length === b.pairs.length;
+    case "cloze": return r.fill.every(function(x){ return x !== null; });
+  }
+}
+function grade(it){
+  var b = byId[it.id], r = it.r, v = it.v, c = 0;
+  switch(b.type){
+    case "mc": return b.options[r.sel].ok ? 1 : 0;
+    case "spot": return b.parts[r.sel].ok ? 1 : 0;
+    case "multi":
+      var okN = b.options.filter(function(o){ return o.ok; }).length, h = 0, w = 0;
+      r.sel.forEach(function(i){ if(b.options[i].ok) h++; else w++; });
+      return Math.max(0, (h - w) / okN);
+    case "classify":
+      v.chips.forEach(function(ci){ if(r.place[ci] === b.chips[ci].b) c++; });
+      return c / v.chips.length;
+    case "order":
+      var s = r.seq, n = s.length, tot = n*(n-1)/2, conc = 0;
+      for(var i=0;i<n;i++) for(var j=i+1;j<n;j++) if(s[i] < s[j]) conc++;
+      return Math.max(0, 2*conc/tot - 1);
+    case "match":
+      b.pairs.forEach(function(_, l){ if(r.pairs[l] === l) c++; });
+      return c / b.pairs.length;
+    case "cloze":
+      var ws = words(b);
+      r.fill.forEach(function(w, i){ if(w !== null && ws[w] === b.answers[i]) c++; });
+      return c / b.answers.length;
+  }
+}
+function totals(){
+  var t = { pts:0, max: S.items.length * CONFIG.puntos, onTime:0, late:0, open:0, lostLate:0, lostOpen:0, dims:{} };
+  S.items.forEach(function(it){
+    var d = byId[it.id].dim;
+    if(!t.dims[d]) t.dims[d] = { got:0, max:0 };
+    t.dims[d].max += CONFIG.puntos;
+    if(it.status === "done"){
+      t.pts += it.pts; t.dims[d].got += it.pts;
+      if(it.late){ t.late++; t.lostLate += CONFIG.puntos * (1 - CONFIG.factorTardio); } else t.onTime++;
+    } else { t.open++; t.lostOpen += CONFIG.puntos; }
+  });
+  t.grade = Math.round((5 * t.pts / t.max) * 10) / 10;
+  return t;
+}
+
+/* ===================== Render general ===================== */
+function render(){
+  document.getElementById("topMeta").textContent = S ? (S.nombre + " · " + S.code) : "";
+  renderProgress();
+  if(!S) return;
+  if(S.phase === "quiz") return renderQuiz();
+  if(S.phase === "review") return renderReview();
+  if(S.phase === "result") return renderResult();
+}
+function renderProgress(){
+  var el = document.getElementById("progress");
+  if(!S || S.phase === "result"){ el.hidden = true; return; }
+  el.hidden = false;
+  var done = 0, skip = 0, pts = 0;
+  var segs = S.items.map(function(it, i){
+    var cls = it.status === "done" ? "done" : it.status === "skipped" ? "skip" : "";
+    if(it.status === "done"){ done++; pts += it.pts; }
+    if(it.status === "skipped") skip++;
+    if(S.phase === "quiz" && i === S.idx) cls += " cur";
+    return '<div class="seg '+cls+'"></div>';
+  }).join("");
+  var left = S.phase === "quiz" ? 'Reto <b>'+(S.idx+1)+'</b> de '+S.items.length : '<b>Resumen</b> antes de entregar';
+  el.innerHTML = '<div class="bar">'+segs+'</div><div class="info"><span>'+left+'</span><span>'+done+' respondidos · '+skip+' saltados · <b>'+fp(pts)+'</b> pts</span></div>';
+}
+
+/* ===================== Retos ===================== */
+var HINTS = {
+  mc: "Elige una opción.",
+  multi: "Marca todas las que apliquen. Las marcas equivocadas restan.",
+  spot: "Toca un fragmento del texto.",
+  classify: "Toca una tarjeta y luego la columna donde va. En computador también puedes arrastrar.",
+  order: "Usa las flechas o arrastra las filas.",
+  match: "Toca un elemento de la izquierda y luego su pareja a la derecha. Toca de nuevo para deshacer.",
+  cloze: "Toca un espacio y luego una palabra. Sobran palabras."
+};
+function renderQuiz(){
+  var it = S.items[S.idx], b = byId[it.id];
+  var lateNote = (it.status === "skipped" && !it.checked) ? '<span class="late">Lo saltaste antes: ahora vale hasta '+fp(maxFor(it))+' puntos</span>' : '';
+  var left, right;
+  if(!it.checked){
+    left = S.from === "review"
+      ? '<button class="link" data-act="back">Volver al resumen</button>'
+      : '<button class="link" data-act="skip">Saltar por ahora<small>al volver vale '+Math.round(CONFIG.factorTardio*100)+' %</small></button>';
+    right = '<button class="btn" data-act="check"'+(isReady(it) ? '' : ' disabled')+'>Comprobar</button>';
+  } else {
+    left = '<span></span>';
+    var lbl = S.from === "review" ? "Volver al resumen" : (S.idx < S.items.length-1 ? "Siguiente" : "Ir al resumen");
+    right = '<button class="btn" data-act="next">'+lbl+' <span class="arr">→</span></button>';
+  }
+  app.innerHTML =
+    '<article class="qcard" style="'+dimStyle(b.dim)+'">'+
+      '<span class="bignum" aria-hidden="true">'+pad(S.idx+1)+'</span>'+
+      '<div class="qtop"><span class="qicon">'+ICON[b.type]+'</span><div class="qmeta"><span class="qnum">RETO '+pad(S.idx+1)+' DE '+pad(S.items.length)+'</span><span class="qtype">'+TYPES[b.type]+'</span></div><span class="dimpill">'+DIMS[b.dim]+'</span></div>'+
+      lateNote +
+      (b.ctx ? '<p class="ctx">'+esc(b.ctx)+'</p>' : '') +
+      '<h2 class="prompt">'+esc(b.prompt)+'</h2>' +
+      (it.checked ? '' : '<p class="hint">'+HINTS[b.type]+'</p>') +
+      R[b.type](b, it) + (it.checked ? feedback(b, it) : "") +
+      '<div class="actions">'+left+right+'</div>'+
+    '</article>';
+}
+
+var R = {
+  mc: function(b, it){ return optionsHTML(b, it, false); },
+  multi: function(b, it){ return optionsHTML(b, it, true); },
+  spot: function(b, it){
+    return '<div class="spot">' + b.parts.map(function(p, i){
+      var cls = "frag";
+      if(it.checked){ cls += " locked"; if(p.ok) cls += " ok"; else if(it.r.sel === i) cls += " bad"; }
+      else if(it.r.sel === i) cls += " sel";
+      return '<span class="'+cls+'" role="button" tabindex="'+(it.checked?-1:0)+'" data-frag="'+i+'">'+esc(p.t)+'</span>';
+    }).join(" ") + '</div>';
+  },
+  classify: function(b, it){
+    var r = it.r, chk = it.checked;
+    var bkc = [["var(--blue-s)","var(--blue)"],["var(--teal-s)","var(--teal)"],["var(--amber-s)","var(--amber-d)"],["var(--navy-s)","var(--navy)"]];
+    function chip(ci){
+      var c = b.chips[ci], cls = "chip", extra = "";
+      if(chk){
+        if(r.place[ci] === c.b) cls += " ok";
+        else { cls += " bad"; extra = '<span class="fix">Va en: '+esc(b.buckets[c.b].l)+'</span>'; }
+      } else if(r.sel === ci) cls += " sel";
+      return '<button class="'+cls+'" data-chip="'+ci+'" '+(chk ? 'disabled' : 'draggable="true"')+'>'+esc(c.t)+extra+'</button>';
+    }
+    var pool = it.v.chips.filter(function(ci){ return r.place[ci] === undefined; });
+    var html = '<div class="'+(r.sel !== null && !chk ? 'armed' : '')+'">';
+    if(!chk) html += '<p class="lbl">Por ubicar · '+pool.length+'</p><div class="pool'+(pool.length ? '' : ' empty')+'" data-bucket="-1">'+pool.map(chip).join("")+'</div>';
+    html += '<div class="buckets">' + b.buckets.map(function(bk, k){
+      var inside = it.v.chips.filter(function(ci){ return r.place[ci] === k; });
+      var col = bkc[k % bkc.length];
+      return '<div class="bucket" data-bucket="'+k+'" style="--bk:'+col[0]+';--bkc:'+col[1]+'"><h5>'+esc(bk.l)+(bk.d ? '<span>'+esc(bk.d)+'</span>' : '')+'</h5>'+inside.map(chip).join("")+'</div>';
+    }).join("") + '</div></div>';
+    return html;
+  },
+  order: function(b, it){
+    var s = it.r.seq, chk = it.checked, n = s.length;
+    return '<ol class="olist">' + s.map(function(step, pos){
+      var cls = "orow" + (chk ? " locked " + (step === pos ? "ok" : "bad") : "");
+      return '<li class="'+cls+'" data-row="'+pos+'" '+(chk ? '' : 'draggable="true"')+'>'+
+        (chk ? '' : '<span class="grip" aria-hidden="true"></span>')+
+        '<span class="n">'+pad(pos+1)+'</span><span class="t">'+esc(b.steps[step])+'</span>'+
+        (chk ? '' : '<span class="mv"><button class="mvb" data-up="'+pos+'" aria-label="Subir"'+(pos===0?' disabled':'')+'>↑</button><button class="mvb" data-down="'+pos+'" aria-label="Bajar"'+(pos===n-1?' disabled':'')+'>↓</button></span>')+
+      '</li>';
+    }).join("") + '</ol>';
+  },
+  match: function(b, it){
+    var r = it.r, chk = it.checked, letterOf = {};
+    it.v.left.forEach(function(l, k){ letterOf[l] = LETTERS[k]; });
+    var rightOwner = {};
+    Object.keys(r.pairs).forEach(function(l){ rightOwner[r.pairs[l]] = +l; });
+    var left = it.v.left.map(function(l){
+      var paired = r.pairs[l] !== undefined, cls = "mi" + (paired ? " paired" : ""), extra = "";
+      if(chk){ if(r.pairs[l] === l) cls += " ok"; else { cls += " bad"; extra = '<span class="fix">Correcto: '+esc(b.pairs[l].r)+'</span>'; } }
+      else if(r.sel === l) cls += " sel";
+      return '<button class="'+cls+'" data-ml="'+l+'"'+(chk?' disabled':'')+'><span class="tag2">'+letterOf[l]+'</span>'+esc(b.pairs[l].l)+extra+'</button>';
+    }).join("");
+    var right = it.v.right.map(function(ri){
+      var owner = rightOwner[ri], paired = owner !== undefined;
+      return '<button class="mi'+(paired ? ' paired' : '')+'" data-mr="'+ri+'"'+(chk?' disabled':'')+'><span class="tag2">'+(paired ? letterOf[owner] : '·')+'</span>'+esc(b.pairs[ri].r)+'</button>';
+    }).join("");
+    return '<div class="match"><div class="mcol"><p class="lbl">'+esc(b.hl || "")+'</p>'+left+'</div><div class="mcol"><p class="lbl">'+esc(b.hr || "")+'</p>'+right+'</div></div>';
+  },
+  cloze: function(b, it){
+    var r = it.r, chk = it.checked, ws = words(b), parts = b.text.split("{}"), html = "";
+    parts.forEach(function(p, i){
+      html += esc(p);
+      if(i < parts.length - 1){
+        var w = r.fill[i], cls = "blank", extra = "";
+        if(chk){ if(w !== null && ws[w] === b.answers[i]) cls += " ok"; else { cls += " bad"; extra = '<span class="fix">'+esc(b.answers[i])+'</span>'; } }
+        else if(r.act === i) cls += " act";
+        html += '<button class="'+cls+'" data-blank="'+i+'"'+(chk?' disabled':'')+'>'+(w !== null ? esc(ws[w]) : '&nbsp;')+extra+'</button>';
+      }
+    });
+    var bank = chk ? '' : '<div class="bank">' + it.v.bank.map(function(w){
+      var used = r.fill.indexOf(w) > -1;
+      return '<button class="chip'+(used ? ' used' : '')+'" data-word="'+w+'">'+esc(ws[w])+'</button>';
+    }).join("") + '</div>';
+    return '<div class="cloze">'+html+'</div>'+bank;
+  }
+};
+
+function optionsHTML(b, it, multi){
+  var r = it.r, chk = it.checked;
+  return '<div class="opts">' + it.v.opts.map(function(oi, k){
+    var o = b.options[oi], sel = multi ? r.sel.indexOf(oi) > -1 : r.sel === oi, cls = "opt" + (multi ? " multi" : "") + (sel ? " sel" : "");
+    if(chk){
+      if(o.ok) cls += " ok" + (sel ? "" : " miss");
+      else if(sel) cls += " bad";
+    }
+    return '<button class="'+cls+'" data-opt="'+oi+'"'+(chk?' disabled':'')+'><span class="key">'+LETTERS[k]+'</span><span>'+esc(o.t)+'</span></button>';
+  }).join("") + '</div>';
+}
+
+function feedback(b, it){
+  var f = it.frac, cls = f >= 0.999 ? "ok" : f >= 0.5 ? "mid" : "bad";
+  var lab = f >= 0.999 ? "Correcto" : f > 0 ? "Parcialmente correcto" : "Incorrecto";
+  var ic = f >= 0.999 ? ICON.check : f > 0 ? ICON.half : ICON.x;
+  var extra = "";
+  if(b.type === "order" && f < 0.999) extra = '<ol>' + b.steps.map(function(s){ return '<li>'+esc(s)+'</li>'; }).join("") + '</ol>';
+  if(b.type === "multi" && f < 0.999) extra = '<p style="margin-top:10px;font-size:13px;color:var(--muted)">Las opciones con borde punteado eran correctas y no las marcaste.</p>';
+  return '<div class="fb '+cls+'"><span class="fi">'+ic+'</span><div><h4><span>'+lab+'</span><span class="pts">+'+fp(it.pts)+' / '+fp(maxFor(it))+'</span></h4><p>'+esc(b.why)+'</p>'+extra+'</div></div>';
+}
+
+/* ===================== Acciones ===================== */
+function check(){
+  var it = S.items[S.idx];
+  if(it.checked || !isReady(it)) return;
+  it.frac = grade(it);
+  it.late = it.status === "skipped";
+  it.checked = true;
+  it.status = "done";
+  it.pts = it.frac * CONFIG.puntos * (it.late ? CONFIG.factorTardio : 1);
+  store.save(); render();
+  var fbEl = app.querySelector(".fb"); if(fbEl) fbEl.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "nearest" });
+}
+function advance(){
+  if(S.from === "review") S.phase = "review";
+  else if(S.idx < S.items.length - 1) S.idx++;
+  else { S.phase = "review"; S.from = "review"; }
+  store.save(); render(); window.scrollTo(0,0);
+}
+function skip(){ S.items[S.idx].status = "skipped"; advance(); }
+function act(fn){ var it = S.items[S.idx]; if(it.checked) return; fn(it.r, it); store.save(); render(); }
+
+app.addEventListener("click", function(e){
+  var t = e.target.closest("[data-act],[data-opt],[data-frag],[data-chip],[data-bucket],[data-up],[data-down],[data-ml],[data-mr],[data-blank],[data-word],[data-goto]");
+  if(!t || !S) return;
+  var d = t.dataset;
+  if(d.act){
+    if(d.act === "check") return check();
+    if(d.act === "next") return advance();
+    if(d.act === "skip") return skip();
+    if(d.act === "back"){ S.phase = "review"; store.save(); render(); window.scrollTo(0,0); return; }
+    if(d.act === "finish") return confirmFinish();
+    if(d.act === "print") return doPrint();
+    if(d.act === "copy") return copySummary();
+    if(d.act === "new") return confirmNew();
+    return;
+  }
+  if(d.goto !== undefined){ S.idx = +d.goto; S.phase = "quiz"; S.from = "review"; store.save(); render(); window.scrollTo(0,0); return; }
+  if(S.phase !== "quiz") return;
+  var b = byId[S.items[S.idx].id];
+  if(d.opt !== undefined) return act(function(r){
+    var i = +d.opt;
+    if(b.type === "multi"){ var k = r.sel.indexOf(i); if(k > -1) r.sel.splice(k,1); else r.sel.push(i); }
+    else r.sel = i;
+  });
+  if(d.frag !== undefined) return act(function(r){ r.sel = +d.frag; });
+  if(d.chip !== undefined) return act(function(r){
+    var c = +d.chip, host = t.parentElement && t.parentElement.closest("[data-bucket]");
+    if(r.sel !== null && r.sel !== c && host){
+      var k = +host.dataset.bucket;
+      if(k < 0) delete r.place[r.sel]; else r.place[r.sel] = k;
+      r.sel = null; return;
+    }
+    r.sel = r.sel === c ? null : c;
+  });
+  if(d.bucket !== undefined) return act(function(r){
+    if(r.sel === null) return;
+    var k = +d.bucket;
+    if(k < 0) delete r.place[r.sel]; else r.place[r.sel] = k;
+    r.sel = null;
+  });
+  if(d.up !== undefined) return act(function(r){ var p = +d.up; if(p > 0){ var x = r.seq[p]; r.seq[p] = r.seq[p-1]; r.seq[p-1] = x; r.moved = true; } });
+  if(d.down !== undefined) return act(function(r){ var p = +d.down; if(p < r.seq.length-1){ var x = r.seq[p]; r.seq[p] = r.seq[p+1]; r.seq[p+1] = x; r.moved = true; } });
+  if(d.ml !== undefined) return act(function(r){
+    var l = +d.ml;
+    if(r.pairs[l] !== undefined && r.sel !== l){ delete r.pairs[l]; r.sel = l; return; }
+    r.sel = r.sel === l ? null : l;
+  });
+  if(d.mr !== undefined) return act(function(r){
+    var ri = +d.mr;
+    var owner = null; Object.keys(r.pairs).forEach(function(l){ if(r.pairs[l] === ri) owner = l; });
+    if(r.sel === null){ if(owner !== null) delete r.pairs[owner]; return; }
+    if(owner !== null) delete r.pairs[owner];
+    r.pairs[r.sel] = ri; r.sel = null;
+  });
+  if(d.blank !== undefined) return act(function(r){ var i = +d.blank; if(r.fill[i] !== null) r.fill[i] = null; r.act = i; });
+  if(d.word !== undefined) return act(function(r){
+    var w = +d.word, target = r.act;
+    if(target === null || r.fill[target] !== null) target = r.fill.indexOf(null);
+    if(target < 0) return;
+    r.fill[target] = w;
+    var next = r.fill.indexOf(null, target + 1); if(next < 0) next = r.fill.indexOf(null);
+    r.act = next < 0 ? null : next;
+  });
+});
+
+app.addEventListener("keydown", function(e){
+  var t = e.target;
+  if((e.key === "Enter" || e.key === " ") && t.getAttribute && t.getAttribute("role") === "button"){ e.preventDefault(); t.click(); }
+});
+
+/* Arrastrar y soltar (escritorio) */
+var drag = null;
+app.addEventListener("dragstart", function(e){
+  if(!S || S.phase !== "quiz" || S.items[S.idx].checked) return;
+  var c = e.target.closest("[data-chip]"), row = e.target.closest("[data-row]");
+  if(c){ drag = { k: "chip", v: +c.dataset.chip }; }
+  else if(row){ drag = { k: "row", v: +row.dataset.row }; row.classList.add("dragging"); }
+  if(drag){ try{ e.dataTransfer.setData("text/plain", drag.k); e.dataTransfer.effectAllowed = "move"; }catch(err){} }
+});
+app.addEventListener("dragover", function(e){
+  if(!drag) return;
+  var tgt = drag.k === "chip" ? e.target.closest("[data-bucket]") : e.target.closest("[data-row]");
+  if(tgt){ e.preventDefault(); app.querySelectorAll(".over").forEach(function(x){ if(x !== tgt) x.classList.remove("over"); }); tgt.classList.add("over"); }
+});
+app.addEventListener("dragleave", function(e){ var tgt = e.target.closest && e.target.closest(".over"); if(tgt && !tgt.contains(e.relatedTarget)) tgt.classList.remove("over"); });
+app.addEventListener("drop", function(e){
+  if(!drag) return;
+  e.preventDefault();
+  var dd = drag; drag = null;
+  if(dd.k === "chip"){
+    var bk = e.target.closest("[data-bucket]"); if(!bk) return render();
+    act(function(r){ var k = +bk.dataset.bucket; if(k < 0) delete r.place[dd.v]; else r.place[dd.v] = k; r.sel = null; });
+  } else {
+    var row = e.target.closest("[data-row]"); if(!row) return render();
+    act(function(r){ var to = +row.dataset.row, from = dd.v; if(to === from) return; var x = r.seq.splice(from, 1)[0]; r.seq.splice(to, 0, x); r.moved = true; });
+  }
+});
+app.addEventListener("dragend", function(){ if(drag){ drag = null; render(); } });
+
+/* ===================== Resumen previo ===================== */
+function renderReview(){
+  var open = S.items.filter(function(it){ return it.status !== "done"; }).length;
+  var tiles = S.items.map(function(it, i){
+    var b = byId[it.id];
+    var inner = '<span class="tn">'+pad(i+1)+'</span><span class="ti">'+ICON[b.type]+'</span><span class="tt">'+TYPES[b.type]+'</span>';
+    if(it.status === "done") return '<div class="tile done" style="'+dimStyle(b.dim)+'">'+inner+'<span class="ts">'+fp(it.pts)+' / '+fp(maxFor(it))+' pts</span></div>';
+    return '<button class="tile skip" data-goto="'+i+'" style="'+dimStyle(b.dim)+'">'+inner+'<span class="ts">Responder · vale '+fp(CONFIG.puntos*CONFIG.factorTardio)+'</span></button>';
+  }).join("");
+  app.innerHTML =
+    '<p class="eyebrow">Antes de entregar</p>'+
+    '<h2 class="head2">'+(open ? (open === 1 ? 'Te queda 1 reto pendiente' : 'Te quedan '+open+' retos pendientes') : 'Respondiste los '+S.items.length+' retos')+'</h2>'+
+    '<p class="subt">'+(open
+      ? 'Los recuadros naranjas son los que saltaste. Cada uno vale hasta '+fp(CONFIG.puntos*CONFIG.factorTardio)+' puntos si lo respondes ahora; si entregas sin responderlos, valen 0.'
+      : 'Revisa el mapa y entrega cuando quieras. Después de entregar no se pueden cambiar respuestas.')+'</p>'+
+    '<div class="tiles">'+tiles+'</div>'+
+    '<div class="actions"><span></span><button class="btn" data-act="finish">Entregar y ver la nota <span class="arr">→</span></button></div>';
+}
+function confirmFinish(){
+  var open = S.items.filter(function(it){ return it.status !== "done"; }).length;
+  showModal(
+    "¿Entregas ahora?",
+    open ? 'Tienes '+open+' '+(open === 1 ? 'reto sin responder, que quedará' : 'retos sin responder, que quedarán')+' con 0 puntos. Después de entregar no hay vuelta atrás.' : 'Después de entregar no se pueden cambiar respuestas.',
+    "Entregar",
+    function(){ S.finished = new Date().toISOString(); S.phase = "result"; store.save(); render(); window.scrollTo(0,0); }
+  );
+}
+
+/* ===================== Resultado ===================== */
+var BANDS = [
+  { min: 4.5, t: "Leíste el artículo con criterio propio. Distingues lo que el estudio observa de lo que concluye y llevas sus ideas a archivos y bibliotecas sin forzarlas." },
+  { min: 4.0, t: "Buena lectura. Entiendes el argumento y lo aplicas bien a casos concretos. Mira los retos donde perdiste puntos: ahí está lo que te falta para leer con más filo." },
+  { min: 3.0, t: "Tienes la idea general del artículo, pero se te escapan matices: los límites del método, la diferencia entre reportar información y usarla, o cómo trasladar las categorías a otros contextos." },
+  { min: 0,   t: "Hace falta otra lectura, esta vez con lápiz. Antes de repetir, intenta responder por escrito la pregunta guía con un ejemplo de una organización que conozcas." }
+];
+var DIM_TIPS = {
+  analisis: { a: "Descompones bien el sistema en sus partes y ves cómo se relacionan.", b: "Vuelve a los componentes del SIG (datos, personas, procedimientos, software, hardware) y piensa en un problema real: casi nunca falla uno solo." },
+  critica: { a: "Separas lo que la evidencia permite afirmar de lo que queda como supuesto.", b: "En cada conclusión pregúntate qué se observó, qué se puede afirmar con eso y qué se está suponiendo. Relee la metodología con esa lupa." },
+  reflexion: { a: "Entiendes que la información vale por el uso que se le da y por sus límites éticos.", b: "Piensa en el uso: un dato que nadie consulta no apoya ninguna decisión, por bien guardado que esté. Y no todo lo técnicamente posible es aceptable con datos personales." },
+  transferencia: { a: "Llevas las categorías del artículo a archivos, bibliotecas y entidades públicas con soltura.", b: "Practica con tu entorno: busca qué variable externa (tipo de cambio, IPC, presupuesto) mueve un costo o una demanda en un archivo o biblioteca que conozcas." }
+};
+function gaugeSVG(grade, passed){
+  var p = Math.max(0, Math.min(1, grade / 5));
+  var cx = 130, cy = 130, r = 104;
+  function pt(f, rr){ var a = Math.PI * (1 - f); return [cx + rr * Math.cos(a), cy - rr * Math.sin(a)]; }
+  var m = CONFIG.aprobacion / 5, t1 = pt(m, r - 16), t2 = pt(m, r + 16), lb = pt(m, r + 30);
+  var color = passed ? "var(--ok)" : "var(--bad)";
+  return '<svg viewBox="0 -18 260 172" role="img" aria-label="Nota '+f1(grade)+' de 5">'+
+    '<path d="M26 130 A104 104 0 0 1 234 130" fill="none" stroke="var(--line)" stroke-width="18" stroke-linecap="round"/>'+
+    '<path d="M26 130 A104 104 0 0 1 234 130" fill="none" stroke="'+color+'" stroke-width="18" stroke-linecap="round" pathLength="100" stroke-dasharray="'+(p*100).toFixed(1)+' 100"/>'+
+    '<line x1="'+t1[0].toFixed(1)+'" y1="'+t1[1].toFixed(1)+'" x2="'+t2[0].toFixed(1)+'" y2="'+t2[1].toFixed(1)+'" stroke="var(--ink)" stroke-width="2"/>'+
+    '<text x="'+lb[0].toFixed(1)+'" y="'+(lb[1]+2).toFixed(1)+'" font-size="10" text-anchor="middle" fill="var(--muted)" style="font-family:var(--mono)">'+f1(CONFIG.aprobacion)+'</text>'+
+    '<text x="130" y="118" font-size="62" text-anchor="middle" fill="var(--ink)" font-weight="500">'+f1(grade)+'</text>'+
+    '<text x="130" y="142" font-size="12" text-anchor="middle" fill="var(--muted)" style="font-family:var(--mono)">de 5,0</text>'+
+    '<text x="22" y="148" font-size="10" text-anchor="middle" fill="var(--faint)" style="font-family:var(--mono)">0</text>'+
+    '<text x="238" y="148" font-size="10" text-anchor="middle" fill="var(--faint)" style="font-family:var(--mono)">5</text>'+
+  '</svg>';
+}
+function renderResult(){
+  var t = totals(), passed = t.grade >= CONFIG.aprobacion;
+  var band = BANDS.filter(function(b){ return t.grade >= b.min; })[0];
+  var dimKeys = Object.keys(DIMS).filter(function(k){ return t.dims[k]; });
+  var pct = {}; dimKeys.forEach(function(k){ pct[k] = Math.round(100 * t.dims[k].got / t.dims[k].max); });
+  var sorted = dimKeys.slice().sort(function(a, b){ return pct[b] - pct[a]; });
+  var best = sorted[0], worst = sorted[sorted.length - 1];
+  var second = sorted.length > 1 ? sorted[sorted.length - 2] : worst;
+  var dims = dimKeys.map(function(k){
+    return '<div class="dim" style="'+dimStyle(k)+'"><span class="dc">'+DIMS[k].slice(0,2).toUpperCase()+'</span><span>'+DIMS[k]+'</span><div class="track"><i style="width:'+pct[k]+'%"></i></div><b>'+pct[k]+' %</b></div>';
+  }).join("");
+  var tipA = pct[best] >= 70
+    ? '<div class="tip a"><small>Fortaleza · '+DIMS[best]+'</small><p>'+DIM_TIPS[best].a+'</p></div>'
+    : '<div class="tip b"><small>Para reforzar · '+DIMS[second]+'</small><p>'+DIM_TIPS[second].b+'</p></div>';
+  var tipB = pct[worst] < 100 && worst !== best
+    ? '<div class="tip b"><small>Para reforzar · '+DIMS[worst]+'</small><p>'+DIM_TIPS[worst].b+'</p></div>'
+    : '<div class="tip a"><small>Sin puntos débiles</small><p>Tu desempeño fue parejo en todas las dimensiones.</p></div>';
+  var review = S.items.map(function(it, i){
+    var b = byId[it.id];
+    var full = it.status === "done" && it.frac >= 0.999;
+    var st = it.status === "done" ? fp(it.pts)+' / '+fp(maxFor(it)) : 'Sin responder';
+    return '<details class="rv" style="'+dimStyle(b.dim)+'"><summary><span class="ri">'+ICON[b.type]+'</span>'+
+      '<span class="q"><small>'+pad(i+1)+' · '+TYPES[b.type]+' · '+DIMS[b.dim]+(it.late ? ' · respondido al final' : '')+'</small>'+esc(cut(label(b), 120))+'</span>'+
+      '<span class="st '+(it.status !== "done" ? 's' : full ? 'full' : 'd')+'">'+st+'</span></summary>'+
+      '<div class="body"><p>'+esc(b.why)+'</p></div></details>';
+  }).join("");
+  var when = new Date(S.finished || Date.now());
+  app.innerHTML =
+    '<p class="eyebrow">Resultado · intento '+S.code+'</p>'+
+    '<div class="rhead"><div class="gauge">'+gaugeSVG(t.grade, passed)+'</div><div>'+
+      '<span class="status '+(passed ? 'ok' : 'bad')+'">'+(passed ? 'Aprobado' : 'Por debajo de '+f1(CONFIG.aprobacion))+' · '+fp(t.pts)+' de '+t.max+' puntos</span>'+
+      '<p class="lead2">'+band.t+'</p>'+
+      '<p class="who">'+esc(S.nombre)+(S.codigo ? ' · '+esc(S.codigo) : '')+' · '+when.toLocaleString("es-CO", { dateStyle: "long", timeStyle: "short" })+'</p>'+
+    '</div></div>'+
+    '<div class="stats">'+
+      '<div class="stat" style="--k:var(--ink)"><b>'+t.onTime+'</b><span>respondidos a tiempo</span></div>'+
+      '<div class="stat" style="--k:var(--orange)"><b>'+t.late+'</b><span>respondidos al final</span></div>'+
+      '<div class="stat" style="--k:var(--line2)"><b>'+t.open+'</b><span>sin responder</span></div>'+
+      '<div class="stat" style="--k:var(--bad)"><b>'+fp(t.lostLate + t.lostOpen)+'</b><span>puntos posibles perdidos por saltar</span></div>'+
+    '</div>'+
+    '<p class="h3">Por dimensión</p><div class="dims">'+dims+'</div>'+
+    '<div class="tips">'+tipA+tipB+'</div>'+
+    '<p class="h3">Reto por reto</p><div class="rvlist">'+review+'</div>'+
+    '<div class="endbar">'+
+      '<button class="btn" data-act="print">Guardar comprobante en PDF</button>'+
+      '<button class="btn ghost" data-act="copy">Copiar resumen</button>'+
+      '<button class="btn ghost" data-act="new">Nuevo intento</button>'+
+    '</div>';
+}
+
+function summaryText(){
+  var t = totals();
+  var dims = Object.keys(DIMS).filter(function(k){ return t.dims[k]; }).map(function(k){ return DIMS[k]+' '+Math.round(100*t.dims[k].got/t.dims[k].max)+' %'; }).join(" · ");
+  return [
+    "Prueba de lectura: Scavone y Marchesano (2025)",
+    "Estudiante: "+S.nombre+(S.codigo ? " ("+S.codigo+")" : ""),
+    "Intento: "+S.code+" · "+new Date(S.finished || Date.now()).toLocaleString("es-CO"),
+    "Nota: "+f1(t.grade)+" / 5,0 ("+fp(t.pts)+" de "+t.max+" puntos)",
+    "A tiempo: "+t.onTime+" · Al final: "+t.late+" · Sin responder: "+t.open,
+    dims
+  ].join("\n");
+}
+function copySummary(){
+  var txt = summaryText();
+  function done(){ toast("Resumen copiado"); }
+  function fallback(){
+    var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ toast("No se pudo copiar"); }
+    document.body.removeChild(ta);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done, fallback); }
+  else fallback();
+}
+function doPrint(){ app.querySelectorAll("details").forEach(function(d){ d.open = true; }); window.print(); }
+function confirmNew(){
+  showModal("¿Empezar otro intento?", "Se borra el resultado guardado en este navegador. Si lo necesitas, guarda primero el comprobante en PDF.", "Empezar otro", function(){ store.clear(); S = null; showLanding(); });
+}
+
+/* ===================== Modal y avisos ===================== */
+function showModal(title, text, okLabel, onOk){
+  modal.innerHTML = '<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="mt"><h4 id="mt">'+esc(title)+'</h4><p>'+esc(text)+'</p><div class="row"><button class="btn ghost" id="mNo">Cancelar</button><button class="btn" id="mOk">'+esc(okLabel)+'</button></div></div>';
+  modal.hidden = false;
+  function close(){ modal.hidden = true; modal.innerHTML = ""; document.removeEventListener("keydown", onKey); }
+  function onKey(e){ if(e.key === "Escape") close(); }
+  document.getElementById("mNo").onclick = close;
+  document.getElementById("mOk").onclick = function(){ close(); onOk(); };
+  modal.onclick = function(e){ if(e.target === modal) close(); };
+  document.addEventListener("keydown", onKey);
+  document.getElementById("mOk").focus();
+}
+function toast(msg){
+  var el = document.createElement("div"); el.className = "toast"; el.textContent = msg;
+  document.body.appendChild(el); setTimeout(function(){ el.remove(); }, 1800);
+}
+
+/* ===================== Inicio ===================== */
+buildLanding();
+var saved = store.load();
+S = validState(saved) ? saved : null;
+if(S && S.phase !== "result") showApp(); else showLanding();
+})();
+</script>
+</body>
+</html>
